@@ -16,5 +16,5 @@ pub struct Amount {
 #[derive(Serialize)]
 pub struct QuantifiedIngredient {
     pub ingredient: Ingredient,
-    pub amount: Amount, // TODO: replace this with a fraction or similar
+    pub amount: Amount,
 }
