@@ -1,5 +1,6 @@
 mod ingredient;
 mod recipe;
+mod routes;
 
 pub use ingredient::{
     Amount,
@@ -7,3 +8,4 @@ pub use ingredient::{
     QuantifiedIngredient,
 };
 pub use recipe::Recipe;
+pub use routes::create_router;
