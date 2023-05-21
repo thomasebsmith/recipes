@@ -8,12 +8,15 @@ use axum::{
 };
 use serde::Deserialize;
 
+fn default_filter_limit() -> u64 {
+    100
+}
+
 #[derive(Deserialize)]
 struct RecipeFilter {
     text: Option<String>,
 
-    // TODO: set a proper default
-    #[serde(default)]
+    #[serde(default = "default_filter_limit")]
     limit: u64,
 }
 
