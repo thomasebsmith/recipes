@@ -4,6 +4,7 @@ use serde::Serialize;
 pub struct Ingredient {
     pub id: u64,
     pub name: String,
+    pub energy_density: f64, // In J/kg. TODO: use a better type
 }
 
 #[derive(Serialize)]
