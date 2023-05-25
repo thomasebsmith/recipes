@@ -1,6 +1,6 @@
 use serde::Serialize;
 
-type RealQuantity = f64; // TODO: use a better type for this
+type RealQuantity = f64;
 
 #[derive(Serialize)]
 pub struct Ingredient {
