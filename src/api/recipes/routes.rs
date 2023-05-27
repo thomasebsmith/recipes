@@ -3,8 +3,7 @@ use super::Recipe;
 use axum::{
     extract::{Path, Query},
     routing::get,
-    Json,
-    Router,
+    Json, Router,
 };
 use serde::Deserialize;
 
@@ -27,14 +26,12 @@ async fn list_recipes(Query(filter): Query<RecipeFilter>) -> Json<Vec<Recipe>> {
         format!("All recipes with limit {}", filter.limit)
     };
 
-    Json(vec![
-        Recipe {
-            id: 0,
-            name: name,
-            ingredients: vec![],
-            instructions: vec![],
-        }
-    ])
+    Json(vec![Recipe {
+        id: 0,
+        name: name,
+        ingredients: vec![],
+        instructions: vec![],
+    }])
 }
 
 async fn get_recipe(Path(recipe_id): Path<u64>) -> Json<Recipe> {

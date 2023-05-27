@@ -15,7 +15,6 @@ pub struct Amount {
     pub measurement: String,
 }
 
-
 #[derive(Serialize)]
 pub struct QuantifiedIngredient {
     pub ingredient: Ingredient,
