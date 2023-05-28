@@ -28,7 +28,7 @@ async fn list_recipes(Query(filter): Query<RecipeFilter>) -> Json<Vec<Recipe>> {
 
     Json(vec![Recipe {
         id: 0,
-        name: name,
+        name,
         ingredients: vec![],
         instructions: vec![],
     }])
