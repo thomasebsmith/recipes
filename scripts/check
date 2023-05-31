@@ -1,0 +1,5 @@
+#!/bin/sh
+
+cargo check || exit 1
+cargo fmt --check --all || exit 1
+cargo clippy --verbose -- -D warnings || exit 1
