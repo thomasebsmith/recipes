@@ -3,6 +3,9 @@ This project is a recipe book web server. It's written in Rust using Axum.
 
 It was originally created by Thomas Smith.
 
+## Prerequisites
+- Recent, stable Rust toolchain
+
 ## Quick Start
 ```sh
 $ cargo run
