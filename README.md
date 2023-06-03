@@ -9,7 +9,7 @@ It was originally created by Thomas Smith.
 
 ## Quick Start
 ```sh
-$ cargo run
+$ cargo run 127.0.0.1 8000
 ```
 
 ## License
