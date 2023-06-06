@@ -10,6 +10,7 @@ It was originally created by Thomas Smith.
 ## Quick Start
 ```sh
 $ cargo run 127.0.0.1 8000
+# A server will listen on localhost port 8000 until it's killed
 ```
 
 ## License
