@@ -1,0 +1,16 @@
+name: Setup Rust
+description: Set up and caching for Rust builds
+
+runs:
+  using: "composite"
+  steps:
+    - name: Cache target
+      uses: actions/cache@v3
+      with:
+        path: target
+        key: "rust-${{ runner.os }}-${{ hashfiles('Cargo.lock') }}-\
+              ${{ github.sha }}"
+        restore-keys: |
+          rust-${{ runner.os }}-${{ hashfiles('Cargo.lock') }}-
+          rust-${{ runner.os }}-
+
