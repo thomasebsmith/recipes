@@ -10,10 +10,13 @@ inputs:
 runs:
   using: "composite"
   steps:
-    - name: Cache target
+    - name: Cache target and Cargo files
       uses: actions/cache@v3
       with:
-        path: target
+        path: |
+          target
+          ~/.cargo/git
+          ~/.cargo/registry
         key: rust-${{ runner.os }}-${{ hashfiles('Cargo.lock') }}-${{ inputs.build-type }}-${{ github.sha }}
         restore-keys: |
           rust-${{ runner.os }}-${{ hashfiles('Cargo.lock') }}-${{ inputs.build-type }}-
