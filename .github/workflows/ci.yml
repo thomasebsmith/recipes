@@ -14,10 +14,10 @@ jobs:
     steps:
     - name: Check out repository
       uses: actions/checkout@v3
-      with:
-        build-type: debug
     - name: Setup
       uses: ./.github/actions/setup-rust
+      with:
+        build-type: debug
     - name: Build
       run: cargo build --verbose
   build-release:
