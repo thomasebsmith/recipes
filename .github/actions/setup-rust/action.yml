@@ -1,6 +1,12 @@
 name: Setup Rust
 description: Set up and caching for Rust builds
 
+inputs:
+  build-type:
+    description: The build type that will be performed. E.g. debug or clippy.
+    required: true
+    type: string
+
 runs:
   using: "composite"
   steps:
@@ -8,9 +14,9 @@ runs:
       uses: actions/cache@v3
       with:
         path: target
-        key: "rust-${{ runner.os }}-${{ hashfiles('Cargo.lock') }}-\
-              ${{ github.sha }}"
+        key: rust-${{ runner.os }}-${{ hashfiles('Cargo.lock') }}-${{ inputs.build-type }}-${{ github.sha }}
         restore-keys: |
+          rust-${{ runner.os }}-${{ hashfiles('Cargo.lock') }}-${{ inputs.build-type }}-
           rust-${{ runner.os }}-${{ hashfiles('Cargo.lock') }}-
           rust-${{ runner.os }}-
 

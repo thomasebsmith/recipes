@@ -3,6 +3,7 @@ name: Rust CI
 on:
   push:
     branches: [ master ]
+  workflow_dispatch:
 
 env:
   CARGO_TERM_COLOR: always
@@ -13,6 +14,8 @@ jobs:
     steps:
     - name: Check out repository
       uses: actions/checkout@v3
+      with:
+        build-type: debug
     - name: Setup
       uses: ./.github/actions/setup-rust
     - name: Build
@@ -24,6 +27,8 @@ jobs:
       uses: actions/checkout@v3
     - name: Setup
       uses: ./.github/actions/setup-rust
+      with:
+        build-type: release
     - name: Build
       run: cargo build --verbose --release
   check-format:
@@ -33,6 +38,8 @@ jobs:
       uses: actions/checkout@v3
     - name: Setup
       uses: ./.github/actions/setup-rust
+      with:
+        build-type: format
     - name: Check format
       run: cargo fmt --check --all --verbose
   clippy:
@@ -42,5 +49,7 @@ jobs:
       uses: actions/checkout@v3
     - name: Setup
       uses: ./.github/actions/setup-rust
+      with:
+        build-type: clippy
     - name: Run Clippy
       run: cargo clippy --verbose -- -D warnings
