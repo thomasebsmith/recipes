@@ -1,3 +1,7 @@
 [database]
 type = "sqlite"
 connection_url = "sqlite://recipes.db"
+
+[server]
+ip_address = "127.0.0.1"
+port = 8000
