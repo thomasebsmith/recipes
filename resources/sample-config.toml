@@ -1,6 +1,5 @@
 [database]
-type = "sqlite"
-connection_url = "sqlite://recipes.db"
+connection_url = "sqlite:///tmp/recipes.db"
 
 [server]
 ip_address = "127.0.0.1"

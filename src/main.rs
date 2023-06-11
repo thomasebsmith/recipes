@@ -1,6 +1,8 @@
 mod api;
 mod config;
+mod database;
 
+use crate::database::Database;
 use axum::{routing::get, Router};
 use std::net::SocketAddr;
 use std::process::ExitCode;
@@ -8,6 +10,15 @@ use std::process::ExitCode;
 #[tokio::main]
 async fn run_server() -> Result<(), String> {
     let config = config::get_config()?;
+
+    let database = Database::new(config.database)
+        .await
+        .map_err(|err| err.to_string())?;
+
+    database
+        .run_test_query()
+        .await
+        .map_err(|err| err.to_string())?;
 
     let app = Router::new()
         .route("/", get(|| async { "Hello, world!" }))

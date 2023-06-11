@@ -9,7 +9,8 @@ It was originally created by Thomas Smith.
 
 ## Quick Start
 ```sh
-$ cargo run 127.0.0.1 8000
+$ touch /tmp/recipes.db
+$ cargo run resources/sample-config.toml
 # A server will listen on localhost port 8000 until it's killed
 ```
 

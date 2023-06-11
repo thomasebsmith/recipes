@@ -4,9 +4,10 @@ use std::{env, fs};
 
 #[derive(Deserialize)]
 pub struct DatabaseConfig {
-    #[serde(rename = "type")]
-    pub db_type: String,
     pub connection_url: String,
+
+    #[serde(default = "default_max_connections")]
+    pub max_connections: u32,
 }
 
 #[derive(Deserialize)]
@@ -37,4 +38,8 @@ pub fn get_config() -> Result<Config, String> {
 
 fn stringify_err<T, U: ToString>(result: Result<T, U>) -> Result<T, String> {
     result.map_err(|err| err.to_string())
+}
+
+fn default_max_connections() -> u32 {
+    16
 }
