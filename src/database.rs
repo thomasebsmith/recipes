@@ -21,7 +21,11 @@ impl Database {
             .fetch_one(&self.connection_pool)
             .await?;
 
-        println!("Query result: {}", test_result.0);
+        println!(
+            "Query result: expected = {}, actual = {}",
+            std::f64::consts::PI,
+            test_result.0
+        );
 
         Ok(())
     }
