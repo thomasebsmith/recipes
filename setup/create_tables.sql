@@ -10,7 +10,6 @@ CREATE TABLE IF NOT EXISTS recipes (
   hidden          BOOLEAN NOT NULL
 );
 
--- TODO: Add foreign key constraints
 CREATE TABLE IF NOT EXISTS recipes_ingredients (
   recipe_id       INTEGER NOT NULL,
   version_id      INTEGER NOT NULL,
