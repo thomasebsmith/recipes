@@ -1,3 +1,8 @@
+CREATE TABLE IF NOT EXISTS db_version (
+  version         INTEGER PRIMARY KEY NOT NULL
+);
+INSERT INTO db_version VALUES (0);
+
 CREATE TABLE IF NOT EXISTS ingredients (
   id              INTEGER PRIMARY KEY NOT NULL,
   name            TEXT NOT NULL,
