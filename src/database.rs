@@ -15,7 +15,13 @@ impl Database {
         Ok(Self { connection_pool })
     }
 
-    pub async fn run_test_query(self) -> Result<(), sqlx::Error> {
+    pub async fn get_version(&self) -> Result<i64, sqlx::Error> {
+        sqlx::query_scalar("SELECT version FROM db_version")
+            .fetch_one(&self.connection_pool)
+            .await
+    }
+
+    pub async fn run_test_query(&self) -> Result<(), sqlx::Error> {
         let test_result: (f64,) = sqlx::query_as("SELECT $1")
             .bind(std::f64::consts::PI)
             .fetch_one(&self.connection_pool)
