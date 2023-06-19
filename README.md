@@ -6,10 +6,13 @@ It was originally created by Thomas Smith.
 
 ## Prerequisites
 - A recent, stable Rust toolchain
+- sqlite3
 
 ## Quick Start
 ```sh
-$ touch /tmp/recipes.db
+$ sqlite3 /tmp/recipes.db
+  > .read setup/create_tables.sql
+  > ^D
 $ cargo run resources/sample-config.toml
 # A server will listen on localhost port 8000 until it's killed
 ```
