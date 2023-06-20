@@ -19,6 +19,7 @@ CREATE TABLE IF NOT EXISTS recipes_ingredients (
   recipe_id       INTEGER NOT NULL,
   version_id      INTEGER NOT NULL,
   ingredient_id   INTEGER NOT NULL,
+  list_order      INTEGER NOT NULL,
   quantity        DOUBLE PRECISION NOT NULL,
   measurement     TEXT NOT NULL,
   PRIMARY KEY (recipe_id, version_id, ingredient_id)
