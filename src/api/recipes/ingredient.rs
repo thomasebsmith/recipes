@@ -10,9 +10,15 @@ pub struct Ingredient {
 }
 
 #[derive(Serialize)]
+pub enum MeasurementType {
+    Mass = 0,
+    Volume = 1,
+}
+
+#[derive(Serialize)]
 pub struct Amount {
     pub quantity: RealQuantity, // In SI standard units.
-    pub measurement: String,
+    pub measurement: MeasurementType,
 }
 
 #[derive(Serialize)]
