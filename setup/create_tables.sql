@@ -1,3 +1,5 @@
+BEGIN;
+
 CREATE TABLE IF NOT EXISTS db_version (
   version         INTEGER PRIMARY KEY NOT NULL
 );
@@ -13,6 +15,11 @@ CREATE TABLE IF NOT EXISTS recipes (
   id              INTEGER PRIMARY KEY NOT NULL,
   name            TEXT NOT NULL,
   hidden          BOOLEAN NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS categories (
+  id              INTEGER PRIMARY KEY NOT NULL,
+  name            TEXT NOT NULL
 );
 
 CREATE TABLE IF NOT EXISTS recipes_ingredients (
@@ -32,3 +39,11 @@ CREATE TABLE IF NOT EXISTS recipes_instructions (
   step_text       TEXT NOT NULL,
   PRIMARY KEY (recipe_id, version_id, step_number)
 );
+
+CREATE TABLE IF NOT EXISTS recipes_categories (
+  recipe_id       INTEGER NOT NULL,
+  category_id     INTEGER NOT NULL,
+  PRIMARY KEY (recipe_id, category_id)
+);
+
+COMMIT;
