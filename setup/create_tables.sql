@@ -3,7 +3,9 @@ BEGIN;
 CREATE TABLE IF NOT EXISTS db_version (
   version         INTEGER PRIMARY KEY NOT NULL
 );
-INSERT INTO db_version VALUES (0);
+INSERT INTO db_version
+  SELECT 0
+  WHERE NOT EXISTS (SELECT version from db_version);
 
 CREATE TABLE IF NOT EXISTS ingredients (
   id              INTEGER PRIMARY KEY NOT NULL,
