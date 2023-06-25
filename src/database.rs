@@ -1,9 +1,13 @@
+mod migrator;
+
 use crate::config::DatabaseConfig;
+use migrator::Migrator;
 use sqlx::any::{Any, AnyPoolOptions};
 use sqlx::Pool;
 
 pub struct Database {
     connection_pool: Pool<Any>,
+    version: i64,
 }
 
 impl Database {
@@ -12,13 +16,19 @@ impl Database {
             .max_connections(config.max_connections)
             .connect(&config.connection_url)
             .await?;
-        Ok(Self { connection_pool })
+        let mut migrator = Migrator::new(&connection_pool).await?;
+        migrator.run_migrations().await?;
+
+        let version = migrator.get_current_version();
+
+        Ok(Self {
+            connection_pool,
+            version,
+        })
     }
 
-    pub async fn get_version(&self) -> Result<i64, sqlx::Error> {
-        sqlx::query_scalar("SELECT version FROM db_version")
-            .fetch_one(&self.connection_pool)
-            .await
+    pub fn get_version(&self) -> i64 {
+        self.version
     }
 
     pub async fn run_test_query(&self) -> Result<(), sqlx::Error> {

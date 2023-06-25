@@ -19,13 +19,7 @@ async fn run_server() -> Result<(), String> {
         .run_test_query()
         .await
         .map_err(|err| err.to_string())?;
-    println!(
-        "DB version is {}",
-        database
-            .get_version()
-            .await
-            .map_err(|err| err.to_string())?
-    );
+    println!("DB version is {}", database.get_version());
 
     let app = Router::new()
         .route("/", get(|| async { "Hello, world!" }))
