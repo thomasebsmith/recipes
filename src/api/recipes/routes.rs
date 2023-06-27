@@ -75,6 +75,17 @@ async fn get_recipe(Path(recipe_id): Path<u64>) -> Json<Recipe> {
                             measurement: MeasurementType::Volume,
                         },
                     },
+                    QuantifiedIngredient {
+                        ingredient: Ingredient {
+                            id: 2,
+                            name: "Third ingredient".to_string(),
+                            energy_density: 458.0,
+                        },
+                        amount: Amount {
+                            quantity: 2.0,
+                            measurement: MeasurementType::Count,
+                        },
+                    },
                 ],
                 instructions: vec![format!(
                     "First instruction for {}.",
