@@ -13,6 +13,7 @@ pub struct Ingredient {
 pub enum MeasurementType {
     Mass = 0,
     Volume = 1,
+    Count = 2,
 }
 
 #[derive(Serialize)]
