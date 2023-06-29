@@ -4,3 +4,6 @@ connection_url = "sqlite:///tmp/recipes.db"
 [server]
 ip_address = "127.0.0.1"
 port = 8000
+
+[logging]
+log_file_path = "/tmp/recipes.log"

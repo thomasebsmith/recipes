@@ -1,5 +1,6 @@
 use serde::Deserialize;
 use std::net::IpAddr;
+use std::path::PathBuf;
 use std::{env, fs};
 
 #[derive(Deserialize)]
@@ -17,9 +18,15 @@ pub struct ServerConfig {
 }
 
 #[derive(Deserialize)]
+pub struct LoggingConfig {
+    pub log_file_path: PathBuf,
+}
+
+#[derive(Deserialize)]
 pub struct Config {
     pub database: DatabaseConfig,
     pub server: ServerConfig,
+    pub logging: LoggingConfig,
 }
 
 pub fn get_config() -> Result<Config, String> {
