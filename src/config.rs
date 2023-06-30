@@ -20,6 +20,7 @@ pub struct ServerConfig {
 #[derive(Deserialize)]
 pub struct LoggingConfig {
     pub log_file_path: PathBuf,
+    pub verbosity: log::Level,
 }
 
 #[derive(Deserialize)]

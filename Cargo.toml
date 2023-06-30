@@ -6,7 +6,7 @@ license = "MIT"
 
 [dependencies]
 axum = "0.6.18"
-log = "0.4.19"
+log = { version = "0.4.19", features = ["serde"] }
 serde = { version = "1.0.163", features = ["derive"] }
 sqlx = { version = "0.6", features = ["any", "runtime-tokio-native-tls", "sqlite"] }
 tokio = { version = "1.28.1", features = ["macros", "rt-multi-thread"] }
