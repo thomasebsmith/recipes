@@ -1,9 +1,11 @@
 mod migrator;
 
 use crate::config::DatabaseConfig;
+use log::LevelFilter;
 use migrator::Migrator;
-use sqlx::any::{Any, AnyPoolOptions};
-use sqlx::Pool;
+use sqlx::any::{Any, AnyConnectOptions, AnyPoolOptions};
+use sqlx::{ConnectOptions, Pool};
+use std::str::FromStr;
 
 pub struct Database {
     connection_pool: Pool<Any>,
@@ -12,10 +14,15 @@ pub struct Database {
 
 impl Database {
     pub async fn new(config: DatabaseConfig) -> Result<Self, sqlx::Error> {
+        let mut connect_options =
+            AnyConnectOptions::from_str(&config.connection_url)?;
+        connect_options.log_statements(LevelFilter::Debug);
+
         let connection_pool = AnyPoolOptions::new()
             .max_connections(config.max_connections)
-            .connect(&config.connection_url)
+            .connect_with(connect_options)
             .await?;
+
         let mut migrator = Migrator::new(&connection_pool).await?;
         migrator.run_migrations().await?;
 

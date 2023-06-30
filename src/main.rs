@@ -5,6 +5,7 @@ mod database;
 use crate::config::{get_config, LoggingConfig};
 use crate::database::Database;
 use axum::{routing::get, Router};
+use log::{error, info};
 use simplelog::{self, WriteLogger};
 use std::fs::File;
 use std::net::SocketAddr;
@@ -25,19 +26,27 @@ async fn run_server() -> Result<(), String> {
 
     init_logging(&config.logging)?;
 
+    info!("Starting server: recipes");
+
+    info!("Connecting to database...");
     let database = Database::new(config.database)
         .await
         .map_err(|err| err.to_string())?;
+    info!("Database connected (version = {})", database.get_version());
 
     database
         .run_test_query()
         .await
         .map_err(|err| err.to_string())?;
-    println!("DB version is {}", database.get_version());
 
     let app = Router::new()
         .route("/", get(|| async { "Hello, world!" }))
         .nest("/api", api::create_router());
+
+    info!(
+        "Binding to {}:{}",
+        config.server.ip_address, config.server.port
+    );
 
     axum::Server::bind(&SocketAddr::new(
         config.server.ip_address,
@@ -51,6 +60,7 @@ async fn run_server() -> Result<(), String> {
 fn main() -> ExitCode {
     if let Err(err) = run_server() {
         eprintln!("{}", err);
+        error!("{}", err);
         ExitCode::FAILURE
     } else {
         ExitCode::SUCCESS
