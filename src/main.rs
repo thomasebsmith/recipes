@@ -2,14 +2,28 @@ mod api;
 mod config;
 mod database;
 
+use crate::config::{get_config, LoggingConfig};
 use crate::database::Database;
 use axum::{routing::get, Router};
+use simplelog::{self, WriteLogger};
+use std::fs::File;
 use std::net::SocketAddr;
 use std::process::ExitCode;
 
+fn init_logging(config: &LoggingConfig) -> Result<(), String> {
+    WriteLogger::init(
+        config.verbosity,
+        simplelog::Config::default(),
+        File::create(&config.log_file_path).map_err(|err| err.to_string())?,
+    )
+    .map_err(|err| err.to_string())
+}
+
 #[tokio::main]
 async fn run_server() -> Result<(), String> {
-    let config = config::get_config()?;
+    let config = get_config()?;
+
+    init_logging(&config.logging)?;
 
     let database = Database::new(config.database)
         .await
