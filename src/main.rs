@@ -12,6 +12,12 @@ use std::net::SocketAddr;
 use std::process::ExitCode;
 
 fn init_logging(config: &LoggingConfig) -> Result<(), String> {
+    println!(
+        "Logs will be written to {} with verbosity {}",
+        config.log_file_path.display(),
+        config.verbosity
+    );
+
     WriteLogger::init(
         config.verbosity,
         simplelog::Config::default(),
@@ -22,6 +28,7 @@ fn init_logging(config: &LoggingConfig) -> Result<(), String> {
 
 #[tokio::main]
 async fn run_server() -> Result<(), String> {
+    println!("Reading configuration...");
     let config = get_config()?;
 
     init_logging(&config.logging)?;
