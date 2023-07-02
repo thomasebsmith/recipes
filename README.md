@@ -6,7 +6,7 @@ It was originally created by Thomas Smith.
 
 ## Prerequisites
 - A recent, stable Rust toolchain
-- sqlite3
+- sqlite3 (to initialize the database)
 
 ## Quick Start
 ```sh
