@@ -32,8 +32,10 @@ runs:
           rust-${{ runner.os }}-
     - name: Install toolchain profile
       if: inputs.toolchain-profile != ''
+      shell: bash
       run: rustup toolchain install nightly --profile ${{ inputs.toolchain-profile }}
     - name: Install toolchain component
       if: inputs.toolchain-component != ''
+      shell: bash
       run: rustup toolchain install nightly --component ${{ inputs.toolchain-component }}
 
