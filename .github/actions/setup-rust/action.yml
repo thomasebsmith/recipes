@@ -31,9 +31,9 @@ runs:
           rust-${{ runner.os }}-${{ hashfiles('Cargo.lock') }}-
           rust-${{ runner.os }}-
     - name: Install toolchain profile
-      if: ${{ inputs.toolchain-profile != "" }}
+      if: inputs.toolchain-profile != ''
       run: rustup toolchain install nightly --profile ${{ inputs.toolchain-profile }}
     - name: Install toolchain component
-      if: ${{ inputs.toolchain-component != "" }}
+      if: inputs.toolchain-component != ''
       run: rustup toolchain install nightly --component ${{ inputs.toolchain-component }}
 
