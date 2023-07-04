@@ -1,6 +1,9 @@
+#![feature(async_fn_in_trait)]
+
 mod api;
 mod config;
 mod database;
+mod models;
 
 use crate::config::{get_config, LoggingConfig};
 use crate::database::Database;

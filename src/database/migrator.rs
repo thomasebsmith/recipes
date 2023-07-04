@@ -1,10 +1,11 @@
+use super::DBResult;
 use sqlx::any::Any;
 use sqlx::{Pool, Transaction};
 use std::collections::HashMap;
 use std::future::Future;
 use std::pin::Pin;
 
-trait SqlxFut<T>: Future<Output = Result<T, sqlx::Error>> {}
+trait SqlxFut<T>: Future<Output = DBResult<T>> {}
 
 impl<T, U: Future<Output = Result<T, sqlx::Error>>> SqlxFut<T> for U {}
 
@@ -34,7 +35,7 @@ impl<'a> Migrator<'a> {
         })
     }
 
-    pub async fn run_migrations(&mut self) -> Result<(), sqlx::Error> {
+    pub async fn run_migrations(&mut self) -> DBResult<()> {
         let starting_version = self.current_version;
 
         let migrations = get_migrations();

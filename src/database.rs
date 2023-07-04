@@ -7,13 +7,15 @@ use sqlx::any::{Any, AnyConnectOptions, AnyPoolOptions};
 use sqlx::{ConnectOptions, Pool};
 use std::str::FromStr;
 
+pub type DBResult<T> = Result<T, sqlx::Error>;
+
 pub struct Database {
     connection_pool: Pool<Any>,
     version: i64,
 }
 
 impl Database {
-    pub async fn new(config: DatabaseConfig) -> Result<Self, sqlx::Error> {
+    pub async fn new(config: DatabaseConfig) -> DBResult<Self> {
         let mut connect_options =
             AnyConnectOptions::from_str(&config.connection_url)?;
         connect_options.log_statements(LevelFilter::Debug);
@@ -38,7 +40,7 @@ impl Database {
         self.version
     }
 
-    pub async fn run_test_query(&self) -> Result<(), sqlx::Error> {
+    pub async fn run_test_query(&self) -> DBResult<()> {
         let test_result: (f64,) = sqlx::query_as("SELECT $1")
             .bind(std::f64::consts::PI)
             .fetch_one(&self.connection_pool)
