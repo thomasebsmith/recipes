@@ -25,7 +25,11 @@ fn init_logging(config: &LoggingConfig) -> Result<(), String> {
     WriteLogger::init(
         config.verbosity,
         simplelog::Config::default(),
-        File::create(&config.log_file_path).map_err(|err| err.to_string())?,
+        File::options()
+            .create(true)
+            .append(true)
+            .open(&config.log_file_path)
+            .map_err(|err| err.to_string())?,
     )
     .map_err(|err| err.to_string())
 }
