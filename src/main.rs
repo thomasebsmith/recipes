@@ -13,6 +13,7 @@ use simplelog::{self, WriteLogger};
 use std::fs::File;
 use std::net::SocketAddr;
 use std::process::ExitCode;
+use std::sync::Arc;
 
 fn init_logging(config: &LoggingConfig) -> Result<(), String> {
     println!(
@@ -39,9 +40,11 @@ async fn run_server() -> Result<(), String> {
     info!("Starting server: recipes");
 
     info!("Connecting to database...");
-    let database = Database::new(config.database)
-        .await
-        .map_err(|err| err.to_string())?;
+    let database = Arc::new(
+        Database::new(config.database)
+            .await
+            .map_err(|err| err.to_string())?,
+    );
     info!("Database connected (version = {})", database.get_version());
 
     database
@@ -51,7 +54,7 @@ async fn run_server() -> Result<(), String> {
 
     let app = Router::new()
         .route("/", get(|| async { "Hello, world!" }))
-        .nest("/api", api::create_router());
+        .nest("/api", api::create_router(database));
 
     info!(
         "Binding to {}:{}",

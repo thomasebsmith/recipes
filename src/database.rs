@@ -4,10 +4,15 @@ use crate::config::DatabaseConfig;
 use log::LevelFilter;
 use migrator::Migrator;
 use sqlx::any::{Any, AnyConnectOptions, AnyPoolOptions};
-use sqlx::{ConnectOptions, Pool};
+use sqlx::{ConnectOptions, Pool, Transaction};
+use std::future::Future;
+use std::pin::Pin;
 use std::str::FromStr;
 
 pub type DBResult<T> = Result<T, sqlx::Error>;
+
+pub trait SqlxFut<T>: Future<Output = DBResult<T>> {}
+impl<T, U: Future<Output = Result<T, sqlx::Error>>> SqlxFut<T> for U {}
 
 pub struct Database {
     connection_pool: Pool<Any>,
@@ -38,6 +43,20 @@ impl Database {
 
     pub fn get_version(&self) -> i64 {
         self.version
+    }
+
+    pub async fn with_transaction<T, Func>(&self, action: Func) -> DBResult<T>
+    where
+        Func: for<'a> FnOnce(
+            &'a mut Transaction<'static, Any>,
+        ) -> Pin<
+            Box<dyn Send + Future<Output = Result<T, sqlx::Error>> + 'a>,
+        >,
+    {
+        let mut transaction = self.connection_pool.begin().await?;
+        let result = action(&mut transaction).await?;
+        transaction.commit().await?;
+        Ok(result)
     }
 
     pub async fn run_test_query(&self) -> DBResult<()> {

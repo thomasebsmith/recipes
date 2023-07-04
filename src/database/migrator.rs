@@ -1,13 +1,8 @@
-use super::DBResult;
+use super::{DBResult, SqlxFut};
 use sqlx::any::Any;
 use sqlx::{Pool, Transaction};
 use std::collections::HashMap;
-use std::future::Future;
 use std::pin::Pin;
-
-trait SqlxFut<T>: Future<Output = DBResult<T>> {}
-
-impl<T, U: Future<Output = Result<T, sqlx::Error>>> SqlxFut<T> for U {}
 
 type Migration =
     dyn Fn(&mut Transaction<'static, Any>) -> Pin<Box<dyn SqlxFut<i64>>>;
