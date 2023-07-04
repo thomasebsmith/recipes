@@ -6,6 +6,14 @@ inputs:
     description: The build type that will be performed. E.g. debug or clippy.
     required: true
     type: string
+  toolchain-component:
+    description: The component to use when installing the nightly toolchain.
+    required: false
+    type: string
+  toolchain-profile:
+    description: The profile to use when installing the nightly toolchain.
+    required: false
+    type: string
 
 runs:
   using: "composite"
@@ -22,4 +30,10 @@ runs:
           rust-${{ runner.os }}-${{ hashfiles('Cargo.lock') }}-${{ inputs.build-type }}-
           rust-${{ runner.os }}-${{ hashfiles('Cargo.lock') }}-
           rust-${{ runner.os }}-
+    - name: Install toolchain profile
+      if: ${{ inputs.toolchain-profile != "" }}
+      run: rustup toolchain install nightly --profile ${{ inputs.toolchain-profile }}
+    - name: Install toolchain component
+      if: ${{ inputs.toolchain-component != "" }}
+      run: rustup toolchain install nightly --component ${{ inputs.toolchain-component }}
 

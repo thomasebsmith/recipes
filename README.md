@@ -5,7 +5,7 @@ SQLx.
 It was originally created by Thomas Smith.
 
 ## Prerequisites
-- A recent, stable Rust toolchain
+- A recent nightly Rust toolchain
 - sqlite3 (to initialize the database)
 
 ## Quick Start

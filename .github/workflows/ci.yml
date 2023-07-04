@@ -18,6 +18,7 @@ jobs:
       uses: ./.github/actions/setup-rust
       with:
         build-type: debug
+        toolchain-profile: minimal
     - name: Build
       run: cargo build --verbose
   build-release:
@@ -29,6 +30,7 @@ jobs:
       uses: ./.github/actions/setup-rust
       with:
         build-type: release
+        toolchain-profile: minimal
     - name: Build
       run: cargo build --verbose --release
   check-format:
@@ -40,6 +42,7 @@ jobs:
       uses: ./.github/actions/setup-rust
       with:
         build-type: format
+        toolchain-component: rustfmt
     - name: Check format
       run: cargo fmt --check --all --verbose
   clippy:
@@ -51,5 +54,6 @@ jobs:
       uses: ./.github/actions/setup-rust
       with:
         build-type: clippy
+        toolchain-component: clippy
     - name: Run Clippy
       run: cargo clippy --verbose -- -D warnings
