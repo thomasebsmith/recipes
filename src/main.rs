@@ -51,11 +51,6 @@ async fn run_server() -> Result<(), String> {
     );
     info!("Database connected (version = {})", database.get_version());
 
-    database
-        .run_test_query()
-        .await
-        .map_err(|err| err.to_string())?;
-
     let app = Router::new()
         .route("/", get(|| async { "Hello, world!" }))
         .nest("/api", api::create_router(database));

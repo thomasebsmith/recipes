@@ -58,19 +58,4 @@ impl Database {
         transaction.commit().await?;
         Ok(result)
     }
-
-    pub async fn run_test_query(&self) -> DBResult<()> {
-        let test_result: (f64,) = sqlx::query_as("SELECT $1")
-            .bind(std::f64::consts::PI)
-            .fetch_one(&self.connection_pool)
-            .await?;
-
-        println!(
-            "Query result: expected = {}, actual = {}",
-            std::f64::consts::PI,
-            test_result.0
-        );
-
-        Ok(())
-    }
 }
