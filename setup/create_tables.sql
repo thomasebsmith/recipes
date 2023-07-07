@@ -24,6 +24,13 @@ CREATE TABLE IF NOT EXISTS categories (
   name            TEXT NOT NULL
 );
 
+CREATE TABLE IF NOT EXISTS recipes_versions (
+  recipe_id       INTEGER NOT NULL,
+  version_id      INTEGER NOT NULL,
+  created         DATETIME NOT NULL,
+  PRIMARY KEY (recipe_id, version_id)
+);
+
 CREATE TABLE IF NOT EXISTS recipes_ingredients (
   recipe_id       INTEGER NOT NULL,
   version_id      INTEGER NOT NULL,
