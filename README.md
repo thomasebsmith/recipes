@@ -16,6 +16,10 @@ $ cargo run resources/sample-config.toml
 # Log messages will go to /tmp/recipes.log
 ```
 
+## Project Status
+This project is currently in early development. It is not stable. SQL schemas,
+code layout, etc. are subject to arbitrary changes.
+
 ## License
 This project is available under the MIT License. See [LICENSE](./LICENSE) for
 details.
