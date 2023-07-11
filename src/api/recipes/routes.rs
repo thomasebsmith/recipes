@@ -58,13 +58,18 @@ struct RecipeFilter {
     limit: u64,
 }
 
+impl RecipeFilter {
+    fn summary(&self) -> String {
+        if let Some(ref text) = self.text {
+            format!("Recipes matching \"{}\" with limit {}", text, self.limit)
+        } else {
+            format!("All recipes with limit {}", self.limit)
+        }
+    }
+}
+
 async fn list_recipes(Query(filter): Query<RecipeFilter>) -> Json<Vec<Recipe>> {
-    let name = if let Some(text) = filter.text {
-        format!("Recipes matching \"{}\" with limit {}", text, filter.limit)
-    } else {
-        format!("All recipes with limit {}", filter.limit)
-    };
-    debug!("Listing recipes: {}", name);
+    debug!("Listing recipes: {}", filter.summary());
 
     Json::<Vec<Recipe>>(vec![])
 }
