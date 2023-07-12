@@ -27,7 +27,7 @@ impl Model for Recipe {
         .await?;
 
         let version_ids: Vec<i64> = sqlx::query_scalar(
-            "SELECT DISTINCT version_id FROM recipes_ingredients WHERE recipe_id = $1",
+            "SELECT version_id FROM recipes_versions WHERE recipe_id = $1",
         )
         .bind(id)
         .fetch_all(&mut *transaction)
