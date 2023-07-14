@@ -1,53 +1,18 @@
+use crate::api::utils::Error;
 use crate::database::Database;
 use crate::models::{Model, Recipe};
 
 use axum::{
     extract::{Path, Query, State},
-    http::StatusCode,
-    response::{IntoResponse, Response},
     routing::get,
     Json, Router,
 };
-use log::{debug, error};
+use log::debug;
 use serde::Deserialize;
-use std::collections::HashMap;
 use std::sync::Arc;
 
 fn default_filter_limit() -> u64 {
     100
-}
-
-struct Error {
-    status_code: StatusCode,
-    message: String,
-}
-
-impl Error {
-    fn from_sqlx(error: sqlx::Error) -> Self {
-        let (status_code, message) = match error {
-            sqlx::Error::RowNotFound => {
-                (StatusCode::NOT_FOUND, "Resource not found")
-            }
-            _ => {
-                error!("Internal error during query: {}", error);
-                (StatusCode::INTERNAL_SERVER_ERROR, "Internal database error")
-            }
-        };
-        Self {
-            status_code,
-            message: message.to_owned(),
-        }
-    }
-}
-
-impl IntoResponse for Error {
-    fn into_response(self) -> Response {
-        (
-            self.status_code,
-            Json(HashMap::from([("error_message", self.message)])),
-        )
-            .into_response()
-    }
 }
 
 #[derive(Deserialize)]
