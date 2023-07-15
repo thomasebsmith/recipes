@@ -43,6 +43,8 @@ async fn get_recipe(
     State(database): State<Arc<Database>>,
     Path(recipe_id): Path<i64>,
 ) -> Result<Json<Recipe>, Error> {
+    debug!("Getting recipe {}", recipe_id);
+
     Ok(Json(
         database
             .with_transaction(move |transaction| {
