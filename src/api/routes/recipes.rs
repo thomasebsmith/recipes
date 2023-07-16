@@ -34,7 +34,10 @@ impl RecipeFilter {
 }
 
 async fn list_recipes(Query(filter): Query<RecipeFilter>) -> Json<Vec<Recipe>> {
-    debug!("Listing recipes: {}", filter.summary());
+    debug!(
+        "Listing recipes: {} (not yet implemented)",
+        filter.summary()
+    );
 
     Json::<Vec<Recipe>>(vec![])
 }
