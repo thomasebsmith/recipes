@@ -1,6 +1,6 @@
 # Recipes
-**Recipes** is a recipe book web server. It is written in Rust using Axum and
-SQLx.
+**Recipes** is a recipe book web server. It is written in Rust, and it uses Axum
+and SQLx.
 
 It was originally created by Thomas Smith.
 
