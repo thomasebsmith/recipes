@@ -61,24 +61,34 @@ impl Model for RecipeVersion {
         id: Self::ID,
     ) -> DBResult<Self> {
         let created_secs_since_epoch: i64 = sqlx::query_scalar(
-            "SELECT created FROM recipes_versions WHERE recipe_id = $1 AND version_id = $2"
+            "SELECT created FROM recipes_versions \
+                WHERE recipe_id = $1 AND version_id = $2",
         )
-            .bind(id.recipe_id)
-            .bind(id.version_id)
-            .fetch_one(&mut *transaction)
-            .await?;
+        .bind(id.recipe_id)
+        .bind(id.version_id)
+        .fetch_one(&mut *transaction)
+        .await?;
 
         let ingredients_raw: Vec<(i64, f64, i64)> = sqlx::query_as(
-            "SELECT ingredient_id, quantity, measurement FROM recipes_ingredients WHERE recipe_id = $1 AND version_id = $2 ORDER BY list_order"
+            "SELECT ingredient_id, quantity, measurement FROM \
+              recipes_ingredients \
+                WHERE recipe_id = $1 AND version_id = $2 \
+                ORDER BY list_order",
         )
-            .bind(id.recipe_id)
-            .bind(id.version_id)
-            .fetch_all(&mut *transaction)
-            .await?;
+        .bind(id.recipe_id)
+        .bind(id.version_id)
+        .fetch_all(&mut *transaction)
+        .await?;
 
         let instructions_raw: Vec<String> = sqlx::query_scalar(
-            "SELECT step_text FROM recipes_instructions WHERE recipe_id = $1 AND version_id = $2 ORDER BY step_number"
-        ).bind(id.recipe_id).bind(id.version_id).fetch_all(transaction).await?;
+            "SELECT step_text FROM recipes_instructions \
+                WHERE recipe_id = $1 AND version_id = $2 \
+                ORDER BY step_number",
+        )
+        .bind(id.recipe_id)
+        .bind(id.version_id)
+        .fetch_all(transaction)
+        .await?;
 
         let Some(created_naive) =
             NaiveDateTime::from_timestamp_opt(created_secs_since_epoch, 0)
@@ -89,22 +99,26 @@ impl Model for RecipeVersion {
         };
         let created = created_naive.and_utc();
 
-        let ingredients = ingredients_raw.into_iter().map(|(ingredient_id, quantity, measurement)| {
-            QuantifiedIngredient {
-                ingredient: Ref::new(ingredient_id),
-                quantity,
-                measurement: measurement.try_into().unwrap_or_else(|_| {
-                    warn!(
-                        "Invalid measurement {} while retrieving recipe={} version={}, ingredient={}",
-                        measurement,
-                        id.recipe_id,
-                        id.version_id,
-                        ingredient_id,
-                    );
-                    MeasurementType::Count
-                }),
-            }
-        }).collect::<Vec<_>>();
+        let ingredients = ingredients_raw
+            .into_iter()
+            .map(|(ingredient_id, quantity, measurement)| {
+                QuantifiedIngredient {
+                    ingredient: Ref::new(ingredient_id),
+                    quantity,
+                    measurement: measurement.try_into().unwrap_or_else(|_| {
+                        warn!(
+                            "Invalid measurement {} while retrieving \
+                        recipe={} version={}, ingredient={}",
+                            measurement,
+                            id.recipe_id,
+                            id.version_id,
+                            ingredient_id,
+                        );
+                        MeasurementType::Count
+                    }),
+                }
+            })
+            .collect::<Vec<_>>();
         let instructions = instructions_raw
             .into_iter()
             .map(|text| Instruction { text })
