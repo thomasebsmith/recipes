@@ -36,12 +36,12 @@ pub fn get_config() -> Result<Config, String> {
     if args.len() != 2 {
         let executable_name =
             if args.is_empty() { "recipes" } else { &args[0] };
-        Err(format!("Usage: {} <TOML config file>", executable_name))
-    } else {
-        let config_file_contents = stringify_err(fs::read_to_string(&args[1]))?;
-        let config = stringify_err(toml::from_str(&config_file_contents))?;
-        Ok(config)
+        return Err(format!("Usage: {executable_name} <TOML config file>"));
     }
+
+    let config_file_contents = stringify_err(fs::read_to_string(&args[1]))?;
+    let config = stringify_err(toml::from_str(&config_file_contents))?;
+    Ok(config)
 }
 
 fn stringify_err<T, U: ToString>(result: Result<T, U>) -> Result<T, String> {
