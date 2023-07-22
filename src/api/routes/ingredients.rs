@@ -47,7 +47,7 @@ async fn get_ingredient(
     State(database): State<Arc<Database>>,
     Path(ingredient_id): Path<i64>,
 ) -> Result<Json<Ingredient>, Error> {
-    debug!("Getting ingredient {}", ingredient_id);
+    debug!("Getting ingredient {ingredient_id}");
 
     Ok(Json(
         database

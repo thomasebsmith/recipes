@@ -18,7 +18,7 @@ impl Error {
                 (StatusCode::NOT_FOUND, "Resource not found")
             }
             _ => {
-                error!("Internal error during query: {}", error);
+                error!("Internal error during query: {error}");
                 (StatusCode::INTERNAL_SERVER_ERROR, "Internal database error")
             }
         };
