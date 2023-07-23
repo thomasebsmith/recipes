@@ -75,6 +75,7 @@ fn main() -> ExitCode {
         error!("{err}");
         ExitCode::FAILURE
     } else {
+        info!("Server exiting normally");
         ExitCode::SUCCESS
     }
 }
