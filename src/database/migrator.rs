@@ -1,4 +1,5 @@
 use super::{DBResult, SqlxFut};
+use log::debug;
 use sqlx::any::Any;
 use sqlx::{Pool, Transaction};
 use std::collections::HashMap;
@@ -37,8 +38,10 @@ impl<'a> Migrator<'a> {
 
         let mut transaction = self.connection_pool.begin().await?;
         while let Some(migration) = migrations.get(&self.current_version) {
+            debug!("Applying migration from version {}", self.current_version);
             let new_version = migration(&mut transaction).await?;
             assert!(new_version > self.current_version);
+            debug!("After applying migration, version is now {new_version}");
             self.current_version = new_version;
         }
         let version_update_result = sqlx::query(
