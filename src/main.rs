@@ -72,7 +72,7 @@ async fn run_server() -> Result<(), String> {
 fn main() -> ExitCode {
     if let Err(err) = run_server() {
         eprintln!("{err}");
-        error!("{err}");
+        error!("Server exiting with error: {err}");
         ExitCode::FAILURE
     } else {
         info!("Server exiting normally");
