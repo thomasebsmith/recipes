@@ -21,6 +21,12 @@ $ cargo run resources/sample-config.toml
 This project is currently in early development. It is not stable. SQL schemas,
 code layout, etc. are subject to arbitrary changes.
 
+## Roadmap
+### v0.1
+- API to view ingredients and recipes
+- API to create new ingredients and recipes
+- API to edit recipes (i.e. create new versions)
+
 ## License
 This project is available under the MIT License. See [LICENSE](./LICENSE) for
 details.
