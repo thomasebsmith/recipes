@@ -5,15 +5,17 @@ mod config;
 mod database;
 mod models;
 
-use crate::config::{get_config, LoggingConfig};
-use crate::database::Database;
-use axum::{routing::get, Router};
-use log::{error, info};
-use simplelog::{self, WriteLogger};
 use std::fs::File;
 use std::net::SocketAddr;
 use std::process::ExitCode;
 use std::sync::Arc;
+
+use axum::{routing::get, Router};
+use log::{error, info};
+use simplelog::{self, WriteLogger};
+
+use crate::config::{get_config, LoggingConfig};
+use crate::database::Database;
 
 fn init_logging(config: &LoggingConfig) -> Result<(), String> {
     println!(

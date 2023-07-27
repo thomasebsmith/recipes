@@ -1,7 +1,8 @@
-use super::Model;
-use crate::database::DBResult;
 use serde::Serialize;
 use sqlx::{Any, Transaction};
+
+use super::Model;
+use crate::database::DBResult;
 
 #[derive(Serialize)]
 pub struct Ingredient {

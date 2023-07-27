@@ -1,10 +1,11 @@
 mod ingredients;
 mod recipes;
 
-use crate::database::Database;
+use std::sync::Arc;
 
 use axum::Router;
-use std::sync::Arc;
+
+use crate::database::Database;
 
 pub fn create_router(database: Arc<Database>) -> Router {
     Router::new()

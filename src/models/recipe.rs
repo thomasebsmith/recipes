@@ -1,8 +1,10 @@
-use super::{Category, Model, RecipeVersion, RecipeVersionID, Ref};
-use crate::database::DBResult;
+use std::collections::HashMap;
+
 use serde::Serialize;
 use sqlx::{Any, Transaction};
-use std::collections::HashMap;
+
+use super::{Category, Model, RecipeVersion, RecipeVersionID, Ref};
+use crate::database::DBResult;
 
 #[derive(Serialize)]
 pub struct Recipe {

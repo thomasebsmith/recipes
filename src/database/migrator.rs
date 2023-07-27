@@ -1,9 +1,11 @@
-use super::{DBResult, SqlxFut};
+use std::collections::HashMap;
+use std::pin::Pin;
+
 use log::debug;
 use sqlx::any::Any;
 use sqlx::{Pool, Transaction};
-use std::collections::HashMap;
-use std::pin::Pin;
+
+use super::{DBResult, SqlxFut};
 
 type Migration =
     dyn Fn(&mut Transaction<'static, Any>) -> Pin<Box<dyn SqlxFut<i64>>>;

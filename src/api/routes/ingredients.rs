@@ -1,6 +1,4 @@
-use crate::api::utils::Error;
-use crate::database::Database;
-use crate::models::{Ingredient, Model};
+use std::sync::Arc;
 
 use axum::{
     extract::{Path, State},
@@ -8,7 +6,10 @@ use axum::{
     Json, Router,
 };
 use log::debug;
-use std::sync::Arc;
+
+use crate::api::utils::Error;
+use crate::database::Database;
+use crate::models::{Ingredient, Model};
 
 async fn list_ingredients(
     State(database): State<Arc<Database>>,

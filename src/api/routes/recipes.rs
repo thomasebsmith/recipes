@@ -1,6 +1,4 @@
-use crate::api::utils::Error;
-use crate::database::Database;
-use crate::models::{Model, Recipe};
+use std::sync::Arc;
 
 use axum::{
     extract::{Path, Query, State},
@@ -9,7 +7,10 @@ use axum::{
 };
 use log::debug;
 use serde::Deserialize;
-use std::sync::Arc;
+
+use crate::api::utils::Error;
+use crate::database::Database;
+use crate::models::{Model, Recipe};
 
 fn default_filter_limit() -> u64 {
     100

@@ -1,7 +1,8 @@
-use serde::Deserialize;
 use std::net::IpAddr;
 use std::path::PathBuf;
 use std::{env, fs};
+
+use serde::Deserialize;
 
 #[derive(Deserialize)]
 pub struct DatabaseConfig {

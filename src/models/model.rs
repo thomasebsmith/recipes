@@ -1,6 +1,7 @@
-use crate::database::DBResult;
 use serde::Serialize;
 use sqlx::{Any, Transaction};
+
+use crate::database::DBResult;
 
 pub trait Model: Serialize + Sized {
     type ID: Copy;

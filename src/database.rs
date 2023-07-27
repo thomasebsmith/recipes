@@ -1,13 +1,15 @@
 mod migrator;
 
-use crate::config::DatabaseConfig;
+use std::future::Future;
+use std::pin::Pin;
+use std::str::FromStr;
+
 use log::LevelFilter;
 use migrator::Migrator;
 use sqlx::any::{Any, AnyConnectOptions, AnyPoolOptions};
 use sqlx::{ConnectOptions, Pool, Transaction};
-use std::future::Future;
-use std::pin::Pin;
-use std::str::FromStr;
+
+use crate::config::DatabaseConfig;
 
 pub type DBResult<T> = Result<T, sqlx::Error>;
 

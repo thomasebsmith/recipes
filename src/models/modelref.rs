@@ -1,7 +1,8 @@
-use super::Model;
-use crate::database::DBResult;
 use serde::{ser::SerializeMap, Serialize, Serializer};
 use sqlx::{Any, Transaction};
+
+use super::Model;
+use crate::database::DBResult;
 
 pub struct Ref<M: Model> {
     id: M::ID,

@@ -1,10 +1,11 @@
+use std::collections::HashMap;
+
 use axum::{
     http::StatusCode,
     response::{IntoResponse, Response},
     Json,
 };
 use log::error;
-use std::collections::HashMap;
 
 pub struct Error {
     status_code: StatusCode,
