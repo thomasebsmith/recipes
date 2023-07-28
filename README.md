@@ -27,6 +27,9 @@ code layout, etc. are subject to arbitrary changes.
 - API to create new ingredients and recipes
 - API to edit recipes (i.e. create new versions)
 
+### v0.2
+- HTML UI for viewing, creating, and editing recipes and ingredients
+
 ## License
 This project is available under the MIT License. See [LICENSE](./LICENSE) for
 details.
