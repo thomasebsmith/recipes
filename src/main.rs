@@ -3,6 +3,7 @@
 mod api;
 mod config;
 mod database;
+mod frontend;
 mod models;
 
 use std::fs::File;
@@ -10,7 +11,7 @@ use std::net::SocketAddr;
 use std::process::ExitCode;
 use std::sync::Arc;
 
-use axum::{routing::get, Router};
+use axum::Router;
 use log::{error, info};
 use simplelog::{self, WriteLogger};
 
@@ -54,7 +55,7 @@ async fn run_server() -> Result<(), String> {
     info!("Database connected (version = {})", database.get_version());
 
     let app = Router::new()
-        .route("/", get(|| async { "Hello, world!" }))
+        .nest("/", frontend::create_router(database.clone()))
         .nest("/api", api::create_router(database));
 
     info!(
