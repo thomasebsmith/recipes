@@ -33,6 +33,9 @@ code layout, etc. are subject to arbitrary changes.
 ### v0.3
 - API and UI for searching for recipes and ingredients
 
+### v0.4
+- Ability to record recipe attempts
+
 ## License
 This project is available under the MIT License. See [LICENSE](./LICENSE) for
 details.
