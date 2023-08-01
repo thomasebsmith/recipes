@@ -1,8 +1,8 @@
 use std::convert::TryFrom;
 
-use chrono::{offset::Utc, DateTime, NaiveDateTime};
+use chrono::{offset::Utc, DateTime, Duration, NaiveDateTime};
 use log::warn;
-use serde::Serialize;
+use serde::{Serialize, Serializer};
 use sqlx::{Any, Transaction};
 
 use super::{Ingredient, Model, Ref};
@@ -47,6 +47,9 @@ pub struct RecipeVersion {
     pub created: DateTime<Utc>,
     pub ingredients: Vec<QuantifiedIngredient>,
     pub instructions: Vec<Instruction>,
+
+    #[serde(serialize_with = "duration_to_seconds")]
+    pub duration: Duration,
 }
 
 #[derive(Clone, Copy, Serialize)]
@@ -62,14 +65,15 @@ impl Model for RecipeVersion {
         transaction: &mut Transaction<'_, Any>,
         id: Self::ID,
     ) -> DBResult<Self> {
-        let created_secs_since_epoch: i64 = sqlx::query_scalar(
-            "SELECT created FROM recipes_versions \
+        let (created_secs_since_epoch, duration_secs): (i64, i64) =
+            sqlx::query_as(
+                "SELECT created, duration FROM recipes_versions \
                 WHERE recipe_id = $1 AND version_id = $2",
-        )
-        .bind(id.recipe_id)
-        .bind(id.version_id)
-        .fetch_one(&mut *transaction)
-        .await?;
+            )
+            .bind(id.recipe_id)
+            .bind(id.version_id)
+            .fetch_one(&mut *transaction)
+            .await?;
 
         let ingredients_raw: Vec<(i64, f64, i64)> = sqlx::query_as(
             "SELECT ingredient_id, quantity, measurement FROM \
@@ -101,6 +105,8 @@ impl Model for RecipeVersion {
         };
         let created = created_naive.and_utc();
 
+        let duration = Duration::seconds(duration_secs);
+
         let ingredients = ingredients_raw
             .into_iter()
             .map(|(ingredient_id, quantity, measurement)| {
@@ -131,6 +137,7 @@ impl Model for RecipeVersion {
             created,
             ingredients,
             instructions,
+            duration,
         })
     }
 
@@ -143,4 +150,11 @@ impl Model for RecipeVersion {
         }
         Ok(())
     }
+}
+
+fn duration_to_seconds<S: Serializer>(
+    value: &Duration,
+    serializer: S,
+) -> Result<S::Ok, S::Error> {
+    serializer.serialize_i64(value.num_seconds())
 }

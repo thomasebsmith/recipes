@@ -28,6 +28,7 @@ CREATE TABLE IF NOT EXISTS recipes_versions (
   recipe_id       INTEGER NOT NULL,
   version_id      INTEGER NOT NULL,
   created         DATETIME NOT NULL,
+  duration        INTEGER NOT NULL,
   PRIMARY KEY (recipe_id, version_id)
 );
 
