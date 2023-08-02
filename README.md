@@ -36,6 +36,9 @@ code layout, etc. are subject to arbitrary changes.
 ### v0.4
 - Ability to record recipe attempts
 
+### v0.5
+- Ability to track current food supplies and determine possible recipes
+
 ## License
 This project is available under the MIT License. See [LICENSE](./LICENSE) for
 details.
