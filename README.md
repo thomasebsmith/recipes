@@ -31,7 +31,8 @@ code layout, etc. are subject to arbitrary changes.
 - HTML UI for viewing, creating, and editing recipes and ingredients
 
 ### v0.3
-- API and UI for searching for recipes and ingredients
+- API and UI for searching for recipes and ingredients by name, composition,
+  time, etc.
 
 ### v0.4
 - Ability to record recipe attempts
