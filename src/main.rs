@@ -18,6 +18,7 @@ use simplelog::{self, WriteLogger};
 use crate::config::{get_config, LoggingConfig};
 use crate::database::Database;
 
+/// Initializes logging based on the log file path and verbosity in `config`.
 fn init_logging(config: &LoggingConfig) -> Result<(), String> {
     println!(
         "Logs will be written to {} with verbosity {}",
@@ -37,6 +38,10 @@ fn init_logging(config: &LoggingConfig) -> Result<(), String> {
     .map_err(|err| err.to_string())
 }
 
+/// Starts the server asynchronously and runs it until shutdown or an error
+/// occurs.
+///
+/// This function serves as the entrypoint to the asynchronous runtime.
 #[tokio::main]
 async fn run_server() -> Result<(), String> {
     println!("Reading configuration...");
@@ -72,6 +77,7 @@ async fn run_server() -> Result<(), String> {
     .map_err(|err| err.to_string())
 }
 
+/// Runs the server until shutdown or an error occurs.
 fn main() -> ExitCode {
     if let Err(err) = run_server() {
         eprintln!("{err}");
