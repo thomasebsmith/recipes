@@ -4,11 +4,15 @@ use std::{env, fs};
 
 use serde::Deserialize;
 
+/// Configuration related to the database.
 #[derive(Deserialize)]
 pub struct DatabaseConfig {
+    /// The URL to use to connect to the database (e.g.
+    /// `"sqlite:///tmp/recipes.db"`).
     pub connection_url: String,
 
     #[serde(default = "default_max_connections")]
+    /// The maximum number of connections to establish with the database.
     pub max_connections: u32,
 }
 
