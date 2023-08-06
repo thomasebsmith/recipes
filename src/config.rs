@@ -11,14 +11,18 @@ pub struct DatabaseConfig {
     /// `"sqlite:///tmp/recipes.db"`).
     pub connection_url: String,
 
-    #[serde(default = "default_max_connections")]
     /// The maximum number of connections to establish with the database.
+    #[serde(default = "default_max_connections")]
     pub max_connections: u32,
 }
 
+/// Configuration related to the HTTP server.
 #[derive(Deserialize)]
 pub struct ServerConfig {
+    /// The IP address on which to serve the HTTP server.
     pub ip_address: IpAddr,
+
+    /// The port on which to serve the HTTP server.
     pub port: u16,
 }
 
