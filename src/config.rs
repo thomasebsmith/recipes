@@ -26,9 +26,13 @@ pub struct ServerConfig {
     pub port: u16,
 }
 
+/// Configuration relate to logging.
 #[derive(Deserialize)]
 pub struct LoggingConfig {
+    /// The path of the file to which logs are written.
     pub log_file_path: PathBuf,
+
+    /// The minimum verbosity below which logs are ignored.
     pub verbosity: log::LevelFilter,
 }
 
