@@ -36,10 +36,16 @@ pub struct LoggingConfig {
     pub verbosity: log::LevelFilter,
 }
 
+/// A model for the web server's configuration.
 #[derive(Deserialize)]
 pub struct Config {
+    /// The server's database-related configuration.
     pub database: DatabaseConfig,
+
+    /// The server's HTTP/hosting-related configuration.
     pub server: ServerConfig,
+
+    /// The server's logging-related configuration.
     pub logging: LoggingConfig,
 }
 
