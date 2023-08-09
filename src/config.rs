@@ -49,6 +49,10 @@ pub struct Config {
     pub logging: LoggingConfig,
 }
 
+/// Attempts to retrieve the configuration based on the file name in this
+/// program's arguments.
+///
+/// Returns the retrieved configuration or a string describing the error.
 pub fn get_config() -> Result<Config, String> {
     let args: Vec<String> = env::args().collect();
 
