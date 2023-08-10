@@ -11,6 +11,8 @@ use sqlx::{ConnectOptions, Pool, Transaction};
 
 use crate::config::DatabaseConfig;
 
+/// The result of a database query or operation. Contains either the result of
+/// the successful operation, or a database error.
 pub type DBResult<T> = Result<T, sqlx::Error>;
 
 pub trait SqlxFut<T>: Future<Output = DBResult<T>> {}
