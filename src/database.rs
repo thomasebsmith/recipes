@@ -15,9 +15,16 @@ use crate::config::DatabaseConfig;
 /// the successful operation, or a database error.
 pub type DBResult<T> = Result<T, sqlx::Error>;
 
+/// A future that returns a DBResult<T>.
 pub trait SqlxFut<T>: Future<Output = DBResult<T>> {}
 impl<T, U: Future<Output = Result<T, sqlx::Error>>> SqlxFut<T> for U {}
 
+/// Represents a recipes database.
+///
+/// Allows connecting to the database, querying the database, and updating the
+/// database.
+///
+/// Automatically performs migrations as needed.
 pub struct Database {
     connection_pool: Pool<Any>,
     version: i64,
