@@ -31,6 +31,10 @@ pub struct Database {
 }
 
 impl Database {
+    /// Creates a new `Database` based on `config`.
+    ///
+    /// The database will connect using `config.connection_url` and will
+    /// maintain at most `config.max_connections` connections at a time.
     pub async fn new(config: DatabaseConfig) -> DBResult<Self> {
         let mut connect_options =
             AnyConnectOptions::from_str(&config.connection_url)?;
