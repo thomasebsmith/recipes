@@ -35,6 +35,8 @@ impl Database {
     ///
     /// The database will connect using `config.connection_url` and will
     /// maintain at most `config.max_connections` connections at a time.
+    ///
+    /// Migrations will be applied while the `Database` is created.
     pub async fn new(config: DatabaseConfig) -> DBResult<Self> {
         let mut connect_options =
             AnyConnectOptions::from_str(&config.connection_url)?;
@@ -56,6 +58,7 @@ impl Database {
         })
     }
 
+    /// Returns the current migration version of the database.
     pub fn get_version(&self) -> i64 {
         self.version
     }
