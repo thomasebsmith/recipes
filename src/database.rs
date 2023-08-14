@@ -63,6 +63,11 @@ impl Database {
         self.version
     }
 
+    /// Executes `action` during a database transaction.
+    ///
+    /// If `action(&mut transaction).await` returns an `Ok` result, the
+    /// transaction will be committed. Otherwise, the transaction will be
+    /// aborted.
     pub async fn with_transaction<T, Func>(&self, action: Func) -> DBResult<T>
     where
         Func: for<'a> FnOnce(
