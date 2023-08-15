@@ -3,6 +3,7 @@ use sqlx::{Any, Transaction};
 
 use crate::database::DBResult;
 
+/// Represents a data type that can be the result of an API GET request.
 pub trait Model: Serialize + Sized {
     type ID: Copy;
 
