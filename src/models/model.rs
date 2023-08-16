@@ -7,6 +7,8 @@ use crate::database::DBResult;
 pub trait Model: Serialize + Sized {
     type ID: Copy;
 
+    /// Attempts to retrieve the model of this type with the ID `id` from the
+    /// database using `transaction`.
     async fn get(
         transaction: &mut Transaction<'_, Any>,
         id: Self::ID,
