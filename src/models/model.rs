@@ -14,6 +14,11 @@ pub trait Model: Serialize + Sized {
         id: Self::ID,
     ) -> DBResult<Self>;
 
+    /// Eagerly retrieves all data referenced by this model.
+    ///
+    /// When creating a model with `Model::get`, models may not actually
+    /// retrieve all referenced submodels. Calling this method will retrieve
+    /// all submodels.
     async fn fill_refs(
         &mut self,
         transaction: &mut Transaction<'_, Any>,
