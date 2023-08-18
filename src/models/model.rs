@@ -33,10 +33,3 @@ pub trait Model: Serialize + Sized {
         Ok(model)
     }
 }
-
-pub trait MutableModel: Model {
-    async fn store(
-        &self,
-        transaction: &mut Transaction<'_, Any>,
-    ) -> DBResult<()>;
-}
