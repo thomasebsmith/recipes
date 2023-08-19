@@ -24,6 +24,11 @@ pub trait Model: Serialize + Sized {
         transaction: &mut Transaction<'_, Any>,
     ) -> DBResult<()>;
 
+    /// Attempts to retrieve the model of this type with the ID `id` and its
+    /// submodels from the database using `transaction`.
+    ///
+    /// The default implementation is equivalent to `get(transaction, id)`,
+    /// followed by `fill_refs(transaction)` if the call to `get` succeeds.
     async fn get_filled(
         transaction: &mut Transaction<'_, Any>,
         id: Self::ID,
