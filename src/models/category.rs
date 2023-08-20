@@ -4,9 +4,13 @@ use sqlx::{Any, Transaction};
 use super::Model;
 use crate::database::DBResult;
 
+/// Represents a category of recipes.
 #[derive(Serialize)]
 pub struct Category {
+    /// The category's internal ID.
     pub id: i64,
+
+    /// The human-readable name of the category. This should be unique.
     pub name: String,
 }
 
