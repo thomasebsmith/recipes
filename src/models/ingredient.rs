@@ -4,11 +4,18 @@ use sqlx::{Any, Transaction};
 use super::Model;
 use crate::database::DBResult;
 
+/// Represents a general ingredient that can be used in recipes. This can be
+/// any edible recipe ingredient, from water to a spice to a baked good.
 #[derive(Serialize)]
 pub struct Ingredient {
+    /// The ingredient's internal ID.
     pub id: i64,
+
+    /// The human-readable name of the ingredient. This should be unique.
     pub name: String,
-    pub energy_density: f64, // In J/kg.
+
+    /// The typical energy density of the ingredient (in J/kg).
+    pub energy_density: f64,
 }
 
 impl Model for Ingredient {
