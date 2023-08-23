@@ -16,6 +16,10 @@ pub struct Ref<M: Model> {
 }
 
 impl<M: Model> Ref<M> {
+    /// Creates a reference to a model with the ID `id`.
+    ///
+    /// The reference initially holds only the ID and not a cached version of
+    /// the referenced model.
     pub fn new(id: M::ID) -> Self {
         Self { id, value: None }
     }
