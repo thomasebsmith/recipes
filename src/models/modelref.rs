@@ -24,6 +24,10 @@ impl<M: Model> Ref<M> {
         Self { id, value: None }
     }
 
+    /// Attempts to retrieve the referenced model from the database using
+    /// `transaction`.
+    ///
+    /// If successful, the model is cached in this struct and returned.
     pub async fn query(
         &mut self,
         transaction: &mut Transaction<'_, Any>,
