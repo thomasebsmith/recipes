@@ -41,6 +41,10 @@ impl<M: Model> Ref<M> {
         }
     }
 
+    /// Attempts to retrieve the referenced model from the database using
+    /// `transaction`.
+    ///
+    /// If successful, the model is cached in this struct.
     pub async fn fill(
         &mut self,
         transaction: &mut Transaction<'_, Any>,
