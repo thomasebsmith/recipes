@@ -6,11 +6,21 @@ use sqlx::{Any, Transaction};
 use super::{Category, Model, RecipeVersion, RecipeVersionID, Ref};
 use crate::database::DBResult;
 
+/// Represents a recipe for making something edible.
+///
+/// The recipe may have multiple revisions.
 #[derive(Serialize)]
 pub struct Recipe {
+    /// The recipe's internal ID.
     pub id: i64,
+
+    /// The human-readable name of the recipe.
     pub name: String,
+
+    /// A map from (revision number) to (recipe revision).
     pub versions: HashMap<i64, Ref<RecipeVersion>>,
+
+    /// A list of all the categories that this recipe is a part of.
     pub categories: Vec<Ref<Category>>,
 }
 
