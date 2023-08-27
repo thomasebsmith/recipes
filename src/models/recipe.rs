@@ -31,6 +31,8 @@ impl Model for Recipe {
         transaction: &mut Transaction<'_, Any>,
         id: Self::ID,
     ) -> DBResult<Self> {
+        // Get the name of the recipe. If the recipe is hidden, fetch_one will
+        // fail and so this method will fail.
         let name: String = sqlx::query_scalar(
             "SELECT name FROM recipes WHERE id = $1 AND NOT hidden",
         )
@@ -38,6 +40,7 @@ impl Model for Recipe {
         .fetch_one(&mut *transaction)
         .await?;
 
+        // Get all version IDs associated with this recipe.
         let version_ids: Vec<i64> = sqlx::query_scalar(
             "SELECT version_id FROM recipes_versions WHERE recipe_id = $1",
         )
@@ -45,6 +48,7 @@ impl Model for Recipe {
         .fetch_all(&mut *transaction)
         .await?;
 
+        // For now, just create refs to the RecipeVersions.
         let versions = version_ids
             .into_iter()
             .map(|version_id| {
@@ -58,6 +62,7 @@ impl Model for Recipe {
             })
             .collect::<HashMap<i64, Ref<RecipeVersion>>>();
 
+        // Get all category IDs and create refs for them, too.
         let category_ids: Vec<i64> = sqlx::query_scalar(
             "SELECT category_id FROM recipes_categories WHERE recipe_id = $1",
         )
