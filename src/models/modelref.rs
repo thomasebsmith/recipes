@@ -11,7 +11,7 @@ use crate::database::DBResult;
 /// At any point in time, a `Ref` either holds a cached version of the
 /// referenced model (and its ID) or holds only the ID.
 pub struct Ref<M: Model> {
-    id: M::ID,
+    pub id: M::ID,
     value: Option<M>,
 }
 

@@ -1,4 +1,6 @@
 use std::convert::TryFrom;
+use std::io;
+use std::num::TryFromIntError;
 
 use chrono::{offset::Utc, DateTime, Duration, NaiveDateTime};
 use log::warn;
@@ -56,6 +58,79 @@ pub struct RecipeVersion {
 pub struct RecipeVersionID {
     pub recipe_id: i64,
     pub version_id: i64,
+}
+
+impl RecipeVersion {
+    // TODO: Use this in the API
+    #[allow(dead_code)]
+    pub async fn store_new(
+        transaction: &mut Transaction<'_, Any>,
+        recipe_id: i64,
+        created: DateTime<Utc>,
+        ingredients: Vec<QuantifiedIngredient>,
+        instructions: Vec<Instruction>,
+        duration: Duration,
+    ) -> DBResult<RecipeVersionID> {
+        // TODO: Get new version ID more efficiently
+        // TODO: Parallelize better, maybe
+        let last_version_id: i64 = sqlx::query_scalar(
+            "SELECT MAX(version_id) FROM recipes_versions \
+            WHERE recipe_id = $1",
+        )
+        .bind(recipe_id)
+        .fetch_one(&mut *transaction)
+        .await?;
+
+        let version_id = last_version_id + 1;
+
+        sqlx::query(
+            "INSERT INTO recipes_versions \
+            (recipe_id, version_id, created, duration) \
+            VALUES ($1, $2, $3, $4)",
+        )
+        .bind(recipe_id)
+        .bind(version_id)
+        .bind(created.timestamp())
+        .bind(duration.num_seconds())
+        .execute(&mut *transaction)
+        .await?;
+
+        for (list_order, ingredient) in ingredients.into_iter().enumerate() {
+            sqlx::query(
+                "INSERT INTO recipes_ingredients \
+                (recipe_id, version_id, ingredient_id, \
+                list_order, quantity, measurement) \
+                VALUES ($1, $2, $3, $4, $5, $6)",
+            )
+            .bind(recipe_id)
+            .bind(version_id)
+            .bind(ingredient.ingredient.id)
+            .bind(TryInto::<i64>::try_into(list_order).map_err(to_sqlx_error)?)
+            .bind(ingredient.quantity)
+            .bind(ingredient.measurement as i64)
+            .execute(&mut *transaction)
+            .await?;
+        }
+
+        for (step_number, instruction) in instructions.into_iter().enumerate() {
+            sqlx::query(
+                "INSERT INTO recipes_instructions \
+                (recipe_id, version_id, step_number, step_text) \
+                VALUES ($1, $2, $3, $4)",
+            )
+            .bind(recipe_id)
+            .bind(version_id)
+            .bind(TryInto::<i64>::try_into(step_number).map_err(to_sqlx_error)?)
+            .bind(instruction.text)
+            .execute(&mut *transaction)
+            .await?;
+        }
+
+        Ok(RecipeVersionID {
+            recipe_id,
+            version_id,
+        })
+    }
 }
 
 impl Model for RecipeVersion {
@@ -157,4 +232,9 @@ fn duration_to_seconds<S: Serializer>(
     serializer: S,
 ) -> Result<S::Ok, S::Error> {
     serializer.serialize_i64(value.num_seconds())
+}
+
+fn to_sqlx_error(error: TryFromIntError) -> sqlx::Error {
+    // Not quite right, but this shouldn't happen anyway...
+    sqlx::Error::Io(io::Error::new(io::ErrorKind::Other, error))
 }
