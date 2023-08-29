@@ -234,12 +234,16 @@ fn duration_to_seconds<S: Serializer>(
 }
 
 fn try_into<T, F: TryInto<T>>(value: F) -> DBResult<T>
-where F::Error: Into<Box<dyn std::error::Error + Send + Sync>> {
+where
+    F::Error: Into<Box<dyn std::error::Error + Send + Sync>>,
+{
     TryInto::<T>::try_into(value).map_err(to_sqlx_error)
 }
 
 fn to_sqlx_error<E>(error: E) -> sqlx::Error
-where E: Into<Box<dyn std::error::Error + Send + Sync>>{
+where
+    E: Into<Box<dyn std::error::Error + Send + Sync>>,
+{
     // Not quite right, but this shouldn't happen anyway...
     sqlx::Error::Io(io::Error::new(io::ErrorKind::Other, error))
 }
