@@ -1,6 +1,5 @@
 use std::convert::TryFrom;
 use std::io;
-use std::num::TryFromIntError;
 
 use chrono::{offset::Utc, DateTime, Duration, NaiveDateTime};
 use log::warn;
@@ -105,7 +104,7 @@ impl RecipeVersion {
             .bind(recipe_id)
             .bind(version_id)
             .bind(ingredient.ingredient.id)
-            .bind(TryInto::<i64>::try_into(list_order).map_err(to_sqlx_error)?)
+            .bind(try_into::<i64, _>(list_order)?)
             .bind(ingredient.quantity)
             .bind(ingredient.measurement as i64)
             .execute(&mut *transaction)
@@ -120,7 +119,7 @@ impl RecipeVersion {
             )
             .bind(recipe_id)
             .bind(version_id)
-            .bind(TryInto::<i64>::try_into(step_number).map_err(to_sqlx_error)?)
+            .bind(try_into::<i64, _>(step_number)?)
             .bind(instruction.text)
             .execute(&mut *transaction)
             .await?;
@@ -234,7 +233,13 @@ fn duration_to_seconds<S: Serializer>(
     serializer.serialize_i64(value.num_seconds())
 }
 
-fn to_sqlx_error(error: TryFromIntError) -> sqlx::Error {
+fn try_into<T, F: TryInto<T>>(value: F) -> DBResult<T>
+where F::Error: Into<Box<dyn std::error::Error + Send + Sync>> {
+    TryInto::<T>::try_into(value).map_err(to_sqlx_error)
+}
+
+fn to_sqlx_error<E>(error: E) -> sqlx::Error
+where E: Into<Box<dyn std::error::Error + Send + Sync>>{
     // Not quite right, but this shouldn't happen anyway...
     sqlx::Error::Io(io::Error::new(io::ErrorKind::Other, error))
 }
