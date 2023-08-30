@@ -82,6 +82,7 @@ impl RecipeVersion {
 
         let version_id = last_version_id + 1;
 
+        // Store the overall version information.
         sqlx::query(
             "INSERT INTO recipes_versions \
             (recipe_id, version_id, created, duration) \
@@ -94,6 +95,7 @@ impl RecipeVersion {
         .execute(&mut *transaction)
         .await?;
 
+        // Store the ingredient list (with measurements).
         for (list_order, ingredient) in ingredients.into_iter().enumerate() {
             sqlx::query(
                 "INSERT INTO recipes_ingredients \
@@ -111,6 +113,7 @@ impl RecipeVersion {
             .await?;
         }
 
+        // Store the instructions.
         for (step_number, instruction) in instructions.into_iter().enumerate() {
             sqlx::query(
                 "INSERT INTO recipes_instructions \
