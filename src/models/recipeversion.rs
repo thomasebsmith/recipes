@@ -70,8 +70,6 @@ impl RecipeVersion {
         instructions: Vec<Instruction>,
         duration: Duration,
     ) -> DBResult<RecipeVersionID> {
-        // TODO: Get new version ID more efficiently
-        // TODO: Parallelize better, maybe
         let last_version_id: i64 = sqlx::query_scalar(
             "SELECT MAX(version_id) FROM recipes_versions \
             WHERE recipe_id = $1",
