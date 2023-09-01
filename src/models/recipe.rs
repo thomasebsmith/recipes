@@ -24,6 +24,45 @@ pub struct Recipe {
     pub categories: Vec<Ref<Category>>,
 }
 
+impl Recipe {
+    // TODO: Use this in the API
+    #[allow(dead_code)]
+    pub async fn store_new(
+        transaction: &mut Transaction<'_, Any>,
+        name: &str,
+        categories: Vec<Category>,
+    ) -> DBResult<i64> {
+        let last_recipe_id: i64 =
+            sqlx::query_scalar("SELECT MAX(id) FROM recipes")
+                .fetch_one(&mut *transaction)
+                .await?;
+
+        let id = last_recipe_id + 1;
+
+        sqlx::query(
+            "INSERT INTO recipes (id, name, hidden) \
+             VALUES ($1, $2, FALSE)",
+        )
+        .bind(id)
+        .bind(name)
+        .execute(&mut *transaction)
+        .await?;
+
+        for category in categories.into_iter() {
+            sqlx::query(
+                "INSERT INTO recipes_categories (recipe_id, category_id) \
+                 VALUES ($1, $2)",
+            )
+            .bind(id)
+            .bind(category.id)
+            .execute(&mut *transaction)
+            .await?;
+        }
+
+        Ok(id)
+    }
+}
+
 impl Model for Recipe {
     type ID = i64;
 
