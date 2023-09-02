@@ -22,7 +22,7 @@ This project is currently in early development. It is not stable. SQL schemas,
 code layout, etc. are subject to arbitrary changes.
 
 ## Roadmap
-### v0.1
+### v0.1 (In Progress)
 - API to view ingredients and recipes
 - API to create new ingredients and recipes
 - API to edit recipes (i.e. create new versions)
