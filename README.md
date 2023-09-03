@@ -26,6 +26,7 @@ code layout, etc. are subject to arbitrary changes.
 - API to view ingredients and recipes
 - API to create new ingredients and recipes
 - API to edit recipes (i.e. create new versions)
+- Basic database optimizations (minimal query count, ID cache)
 
 ### v0.2
 - HTML UI for viewing, creating, and editing recipes and ingredients
