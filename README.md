@@ -34,6 +34,7 @@ code layout, etc. are subject to arbitrary changes.
 ### v0.3
 - API and UI for searching for recipes and ingredients by name, composition,
   time, etc.
+- SQLite-specific database optimizations
 
 ### v0.4
 - Ability to record recipe attempts
