@@ -1,4 +1,5 @@
 mod migrator;
+mod modelcache;
 
 use std::future::Future;
 use std::pin::Pin;
@@ -6,6 +7,7 @@ use std::str::FromStr;
 
 use log::LevelFilter;
 use migrator::Migrator;
+pub use modelcache::ModelCache;
 use sqlx::any::{Any, AnyConnectOptions, AnyPoolOptions};
 use sqlx::{ConnectOptions, Pool, Transaction};
 
