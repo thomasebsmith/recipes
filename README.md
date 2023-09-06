@@ -37,7 +37,7 @@ code layout, etc. are subject to arbitrary changes.
 - SQLite-specific database optimizations
 
 ### v0.4
-- Ability to record recipe attempts
+- Ability to record recipe attempts with notes
 
 ### v0.5
 - Ability to track current food supplies and determine possible recipes
