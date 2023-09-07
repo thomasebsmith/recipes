@@ -84,3 +84,8 @@ impl Database {
         Ok(result)
     }
 }
+
+#[allow(dead_code)]
+pub struct DBTransaction {
+    transaction: Transaction<'static, Any>,
+}
