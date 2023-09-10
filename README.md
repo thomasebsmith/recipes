@@ -1,6 +1,8 @@
 # Recipes
 **Recipes** is a recipe book web server. It is written in Rust, and it uses SQLite (via SQLx) and Axum.
 
+It is designed for limited-resource deployment, such as on a Raspberry Pi.
+
 It was originally created by Thomas Smith.
 
 ## Prerequisites
