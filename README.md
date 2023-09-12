@@ -40,7 +40,7 @@ code layout, etc. are subject to arbitrary changes.
 ### v0.4
 - Ability to record recipe attempts with notes
 - API documentation
-- Tested on a Raspberry Pi
+- Testing on a Raspberry Pi
 
 ### v0.5
 - Ability to track current food supplies and determine possible recipes
