@@ -44,6 +44,10 @@ code layout, etc. are subject to arbitrary changes.
 - Testing on a Raspberry Pi
 
 ### v0.5
+- Admin interface
+- Database backup integration
+
+### v0.6
 - Ability to track current food supplies and determine possible recipes
 
 ## License
