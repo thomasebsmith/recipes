@@ -44,7 +44,8 @@ code layout, etc. are subject to arbitrary changes.
 - Testing on a Raspberry Pi
 
 ### v0.5
-- Admin interface with server status and statistics
+- Admin interface with server status
+- Traffic statistics
 - Database backup integration
 
 ### v0.6
