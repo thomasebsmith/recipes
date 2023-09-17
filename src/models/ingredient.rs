@@ -18,6 +18,35 @@ pub struct Ingredient {
     pub energy_density: f64,
 }
 
+impl Ingredient {
+    // TODO: Use this in the API
+    #[allow(dead_code)]
+    pub async fn store_new(
+        transaction: &mut Transaction<'_, Any>,
+        name: &str,
+        energy_density: f64,
+    ) -> DBResult<i64> {
+        let last_ingredient_id: i64 =
+            sqlx::query_scalar("SELECT MAX(id) FROM ingredients")
+                .fetch_one(&mut *transaction)
+                .await?;
+
+        let id = last_ingredient_id + 1;
+
+        sqlx::query(
+            "INSERT INTO ingredients (id, name, energy_density)
+             VALUES ($1, $2, $3)",
+        )
+        .bind(id)
+        .bind(name)
+        .bind(energy_density)
+        .execute(&mut *transaction)
+        .await?;
+
+        Ok(id)
+    }
+}
+
 impl Model for Ingredient {
     type ID = i64;
 
