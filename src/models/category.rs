@@ -29,7 +29,7 @@ impl Category {
         let id = last_category_id + 1;
 
         sqlx::query(
-            "INSERT INTO ingredients (id, name)
+            "INSERT INTO categories (id, name)
              VALUES ($1, $2)",
         )
         .bind(id)
