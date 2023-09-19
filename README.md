@@ -55,5 +55,10 @@ code layout, etc. are subject to arbitrary changes.
 This project is available under the MIT License. See [LICENSE](./LICENSE) for
 details.
 
+## Contributing
+To contribute to this repository, please find an existing issue or create one
+that follows the project roadmap. Then, post on the issue that you intend to
+work on it. Finally, create a PR that resolves the issue.
+
 ## Copyright
 This project is copyright © 2023 Thomas Smith.
