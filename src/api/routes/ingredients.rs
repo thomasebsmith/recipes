@@ -2,10 +2,11 @@ use std::sync::Arc;
 
 use axum::{
     extract::{Path, State},
-    routing::get,
+    routing::{get, post},
     Json, Router,
 };
 use log::debug;
+use serde::Deserialize;
 
 use crate::api::utils::Error;
 use crate::database::Database;
@@ -62,9 +63,44 @@ async fn get_ingredient(
     ))
 }
 
+#[derive(Deserialize)]
+struct CreateIngredientData {
+    name: String,
+    energy_density: f64,
+}
+
+async fn create_ingredient(
+    State(database): State<Arc<Database>>,
+    Json(data): Json<CreateIngredientData>,
+) -> Result<Json<Ingredient>, Error> {
+    debug!("Creating ingredient");
+
+    let name = data.name.clone();
+    let id = database
+        .with_transaction(move |transaction| {
+            Box::pin(async move {
+                Ingredient::store_new(
+                    transaction,
+                    &data.name,
+                    data.energy_density,
+                )
+                .await
+            })
+        })
+        .await
+        .map_err(Error::from_sqlx)?;
+
+    Ok(Json(Ingredient {
+        id,
+        name,
+        energy_density: data.energy_density,
+    }))
+}
+
 pub fn create_router(database: Arc<Database>) -> Router {
     Router::new()
         .route("/", get(list_ingredients))
+        .route("/", post(create_ingredient))
         .route("/:ingredient_id", get(get_ingredient))
         .with_state(database)
 }
