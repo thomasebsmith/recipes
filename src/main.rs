@@ -26,9 +26,13 @@ fn init_logging(config: &LoggingConfig) -> Result<(), String> {
         config.verbosity
     );
 
+    let simplelog_config = simplelog::ConfigBuilder::new()
+        .set_time_format_rfc3339()
+        .build();
+
     WriteLogger::init(
         config.verbosity,
-        simplelog::Config::default(),
+        simplelog_config,
         File::options()
             .create(true)
             .append(true)
