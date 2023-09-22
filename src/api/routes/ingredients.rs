@@ -24,11 +24,12 @@ async fn list_ingredients(
                     const LISTING_LIMIT: i64 = 1024;
 
                     let result: Vec<(i64, String, f64)> = sqlx::query_as(
-                    "SELECT id, name, energy_density FROM ingredients LIMIT $1",
-                )
-                .bind(LISTING_LIMIT)
-                .fetch_all(transaction)
-                .await?;
+                        "SELECT id, name, energy_density \
+                         FROM ingredients ORDER BY id LIMIT $1",
+                    )
+                    .bind(LISTING_LIMIT)
+                    .fetch_all(transaction)
+                    .await?;
 
                     Ok(result
                         .into_iter()
