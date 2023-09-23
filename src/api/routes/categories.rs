@@ -2,10 +2,11 @@ use std::sync::Arc;
 
 use axum::{
     extract::{Path, State},
-    routing::get,
+    routing::{get, post},
     Json, Router,
 };
 use log::debug;
+use serde::Deserialize;
 
 use crate::api::utils::Error;
 use crate::database::Database;
@@ -59,9 +60,34 @@ async fn get_category(
     ))
 }
 
+#[derive(Deserialize)]
+struct CreateCategoryData {
+    name: String,
+}
+
+async fn create_category(
+    State(database): State<Arc<Database>>,
+    Json(data): Json<CreateCategoryData>,
+) -> Result<Json<Category>, Error> {
+    debug!("Creating category");
+
+    let name = data.name.clone();
+    let id = database
+        .with_transaction(move |transaction| {
+            Box::pin(async move {
+                Category::store_new(transaction, &data.name).await
+            })
+        })
+        .await
+        .map_err(Error::from_sqlx)?;
+
+    Ok(Json(Category { id, name }))
+}
+
 pub fn create_router(database: Arc<Database>) -> Router {
     Router::new()
         .route("/", get(list_categories))
+        .route("/", post(create_category))
         .route("/:category_id", get(get_category))
         .with_state(database)
 }
