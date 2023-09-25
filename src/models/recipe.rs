@@ -25,7 +25,7 @@ pub struct Recipe {
 }
 
 impl Recipe {
-    // TODO: Use this in the API
+    // TODO: Validate arguments
     #[allow(dead_code)]
     pub async fn store_new(
         transaction: &mut Transaction<'_, Any>,

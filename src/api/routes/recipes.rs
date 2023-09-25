@@ -1,8 +1,9 @@
+use std::collections::HashMap;
 use std::sync::Arc;
 
 use axum::{
     extract::{Path, Query, State},
-    routing::get,
+    routing::{get, post},
     Json, Router,
 };
 use log::debug;
@@ -10,7 +11,7 @@ use serde::Deserialize;
 
 use crate::api::utils::Error;
 use crate::database::Database;
-use crate::models::{Model, Recipe};
+use crate::models::{Category, Model, Recipe, Ref};
 
 fn default_filter_limit() -> u64 {
     100
@@ -61,9 +62,47 @@ async fn get_recipe(
     ))
 }
 
+#[derive(Deserialize)]
+struct CreateRecipeData {
+    name: String,
+    categories: Vec<Category>,
+}
+
+async fn create_recipe(
+    State(database): State<Arc<Database>>,
+    Json(data): Json<CreateRecipeData>,
+) -> Result<Json<Recipe>, Error> {
+    // TODO: Validate categories and emit appropriately
+    debug!("Creating recipe");
+
+    let name = data.name.clone();
+    let categories = data
+        .categories
+        .iter()
+        .map(|category| Ref::new(category.id))
+        .collect::<Vec<_>>();
+    let id = database
+        .with_transaction(move |transaction| {
+            Box::pin(async move {
+                Recipe::store_new(transaction, &data.name, data.categories)
+                    .await
+            })
+        })
+        .await
+        .map_err(Error::from_sqlx)?;
+
+    Ok(Json(Recipe {
+        id,
+        name,
+        versions: HashMap::new(),
+        categories,
+    }))
+}
+
 pub fn create_router(database: Arc<Database>) -> Router {
     Router::new()
         .route("/", get(list_recipes))
+        .route("/", post(create_recipe))
         .route("/:recipe_id", get(get_recipe))
         .with_state(database)
 }

@@ -1,11 +1,11 @@
-use serde::Serialize;
+use serde::{Deserialize, Serialize};
 use sqlx::{Any, Transaction};
 
 use super::Model;
 use crate::database::DBResult;
 
 /// Represents a category of recipes.
-#[derive(Serialize)]
+#[derive(Clone, Deserialize, Serialize)]
 pub struct Category {
     /// The category's internal ID.
     pub id: i64,
