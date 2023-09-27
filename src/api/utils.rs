@@ -7,12 +7,18 @@ use axum::{
 };
 use log::error;
 
+/// Represents an error that can be converted into a JSON API response.
 pub struct Error {
     status_code: StatusCode,
     message: String,
 }
 
 impl Error {
+    /// Creates an API error from a SQLx error.
+    ///
+    /// `RowNotFound` errors are converted into 404 errors.
+    ///
+    /// All other errors are converted into 500 errors.
     pub fn from_sqlx(error: sqlx::Error) -> Self {
         let (status_code, message) = match error {
             sqlx::Error::RowNotFound => {
