@@ -8,6 +8,7 @@ use axum::Router;
 
 use crate::database::Database;
 
+/// Creates a router that handles all API requests.
 pub fn create_router(database: Arc<Database>) -> Router {
     Router::new()
         .nest("/categories", categories::create_router(database.clone()))
