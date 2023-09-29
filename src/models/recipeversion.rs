@@ -70,15 +70,15 @@ impl RecipeVersion {
         instructions: Vec<Instruction>,
         duration: Duration,
     ) -> DBResult<RecipeVersionID> {
-        let last_version_id: i64 = sqlx::query_scalar(
+        let last_version_id: Option<i64> = sqlx::query_scalar(
             "SELECT MAX(version_id) FROM recipes_versions \
             WHERE recipe_id = $1",
         )
         .bind(recipe_id)
-        .fetch_one(&mut *transaction)
+        .fetch_optional(&mut *transaction)
         .await?;
 
-        let version_id = last_version_id + 1;
+        let version_id = last_version_id.map_or(0, |old_id| old_id + 1);
 
         // Store the overall version information.
         sqlx::query(
