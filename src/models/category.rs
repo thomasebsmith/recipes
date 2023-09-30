@@ -19,12 +19,12 @@ impl Category {
         transaction: &mut Transaction<'_, Any>,
         name: &str,
     ) -> DBResult<i64> {
-        let last_category_id: i64 =
+        let last_category_id: Option<i64> =
             sqlx::query_scalar("SELECT MAX(id) FROM categories")
-                .fetch_one(&mut *transaction)
+                .fetch_optional(&mut *transaction)
                 .await?;
 
-        let id = last_category_id + 1;
+        let id = last_category_id.map_or(0, |old_id| old_id + 1);
 
         sqlx::query(
             "INSERT INTO categories (id, name)

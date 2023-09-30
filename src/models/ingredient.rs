@@ -24,12 +24,12 @@ impl Ingredient {
         name: &str,
         energy_density: f64,
     ) -> DBResult<i64> {
-        let last_ingredient_id: i64 =
+        let last_ingredient_id: Option<i64> =
             sqlx::query_scalar("SELECT MAX(id) FROM ingredients")
-                .fetch_one(&mut *transaction)
+                .fetch_optional(&mut *transaction)
                 .await?;
 
-        let id = last_ingredient_id + 1;
+        let id = last_ingredient_id.map_or(0, |old_id| old_id + 1);
 
         sqlx::query(
             "INSERT INTO ingredients (id, name, energy_density)
