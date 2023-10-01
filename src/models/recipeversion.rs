@@ -70,6 +70,19 @@ impl RecipeVersion {
         instructions: Vec<Instruction>,
         duration: Duration,
     ) -> DBResult<RecipeVersionID> {
+        let matching_recipe_count: i64 = sqlx::query_scalar(
+            "SELECT COUNT(id) FROM recipes \
+             WHERE id = $1",
+        )
+        .bind(recipe_id)
+        .fetch_one(&mut *transaction)
+        .await?;
+
+        // TODO: Raise a better error here
+        if matching_recipe_count != 1 {
+            return Err(sqlx::Error::RowNotFound);
+        }
+
         let last_version_id: Option<i64> = sqlx::query_scalar(
             "SELECT MAX(version_id) FROM recipes_versions \
             WHERE recipe_id = $1",
