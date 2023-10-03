@@ -48,6 +48,19 @@ impl Recipe {
         .await?;
 
         for category in categories.into_iter() {
+            // Note: This only works because everything is one transaction
+            let num_categories_with_this_id: i64 = sqlx::query_scalar(
+                "SELECT COUNT(id) FROM categories WHERE id = $1",
+            )
+            .bind(category.id)
+            .fetch_one(&mut *transaction)
+            .await?;
+
+            // TODO: Raise a better error here
+            if num_categories_with_this_id != 1 {
+                return Err(sqlx::Error::RowNotFound);
+            }
+
             sqlx::query(
                 "INSERT INTO recipes_categories (recipe_id, category_id) \
                  VALUES ($1, $2)",
