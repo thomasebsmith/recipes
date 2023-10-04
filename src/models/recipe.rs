@@ -25,7 +25,6 @@ pub struct Recipe {
 }
 
 impl Recipe {
-    // TODO: Validate arguments
     pub async fn store_new(
         transaction: &mut Transaction<'_, Any>,
         name: &str,
