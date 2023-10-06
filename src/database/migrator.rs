@@ -5,10 +5,10 @@ use log::debug;
 use sqlx::any::Any;
 use sqlx::{Pool, Transaction};
 
-use super::{DBResult, SqlxFut};
+use super::{DBFut, DBResult};
 
 type Migration =
-    dyn Fn(&mut Transaction<'static, Any>) -> Pin<Box<dyn SqlxFut<i64>>>;
+    dyn Fn(&mut Transaction<'static, Any>) -> Pin<Box<dyn DBFut<i64>>>;
 
 fn get_migrations() -> HashMap<i64, Box<Migration>> {
     HashMap::<i64, Box<Migration>>::new()
@@ -20,9 +20,7 @@ pub struct Migrator<'a> {
 }
 
 impl<'a> Migrator<'a> {
-    pub async fn new(
-        connection_pool: &'a Pool<Any>,
-    ) -> Result<Migrator<'a>, sqlx::Error> {
+    pub async fn new(connection_pool: &'a Pool<Any>) -> DBResult<Migrator<'a>> {
         let current_version: i64 =
             sqlx::query_scalar("SELECT version FROM db_version")
                 .fetch_one(connection_pool)
@@ -54,7 +52,7 @@ impl<'a> Migrator<'a> {
         .execute(&mut transaction)
         .await?;
         if version_update_result.rows_affected() != 1 {
-            return Err(sqlx::Error::RowNotFound);
+            return Err(sqlx::Error::RowNotFound.into());
         }
 
         transaction.commit().await?;

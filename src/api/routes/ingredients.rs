@@ -42,7 +42,7 @@ async fn list_ingredients(
                 })
             })
             .await
-            .map_err(Error::from_sqlx)?,
+            .map_err(Error::from_db)?,
     ))
 }
 
@@ -60,7 +60,7 @@ async fn get_ingredient(
                 })
             })
             .await
-            .map_err(Error::from_sqlx)?,
+            .map_err(Error::from_db)?,
     ))
 }
 
@@ -89,7 +89,7 @@ async fn create_ingredient(
             })
         })
         .await
-        .map_err(Error::from_sqlx)?;
+        .map_err(Error::from_db)?;
 
     Ok(Json(Ingredient {
         id,

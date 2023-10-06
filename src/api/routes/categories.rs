@@ -38,7 +38,7 @@ async fn list_categories(
                 })
             })
             .await
-            .map_err(Error::from_sqlx)?,
+            .map_err(Error::from_db)?,
     ))
 }
 
@@ -56,7 +56,7 @@ async fn get_category(
                 })
             })
             .await
-            .map_err(Error::from_sqlx)?,
+            .map_err(Error::from_db)?,
     ))
 }
 
@@ -79,7 +79,7 @@ async fn create_category(
             })
         })
         .await
-        .map_err(Error::from_sqlx)?;
+        .map_err(Error::from_db)?;
 
     Ok(Json(Category { id, name }))
 }

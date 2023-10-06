@@ -1,3 +1,4 @@
+mod error;
 mod migrator;
 mod modelcache;
 
@@ -5,6 +6,7 @@ use std::future::Future;
 use std::pin::Pin;
 use std::str::FromStr;
 
+pub use error::Error;
 use log::LevelFilter;
 use migrator::Migrator;
 pub use modelcache::ModelCache;
@@ -15,11 +17,11 @@ use crate::config::DatabaseConfig;
 
 /// The result of a database query or operation. Contains either the result of
 /// the successful operation, or a database error.
-pub type DBResult<T> = Result<T, sqlx::Error>;
+pub type DBResult<T> = Result<T, Error>;
 
 /// A future that returns a DBResult<T>.
-pub trait SqlxFut<T>: Future<Output = DBResult<T>> {}
-impl<T, U: Future<Output = Result<T, sqlx::Error>>> SqlxFut<T> for U {}
+pub trait DBFut<T>: Future<Output = DBResult<T>> {}
+impl<T, U: Future<Output = DBResult<T>>> DBFut<T> for U {}
 
 /// Represents a recipes database.
 ///
@@ -75,7 +77,7 @@ impl Database {
         Func: for<'a> FnOnce(
             &'a mut Transaction<'static, Any>,
         ) -> Pin<
-            Box<dyn Send + Future<Output = Result<T, sqlx::Error>> + 'a>,
+            Box<dyn Send + Future<Output = Result<T, Error>> + 'a>,
         >,
     {
         let mut transaction = self.connection_pool.begin().await?;

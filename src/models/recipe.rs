@@ -4,7 +4,7 @@ use serde::Serialize;
 use sqlx::{Any, Transaction};
 
 use super::{Category, Model, RecipeVersion, RecipeVersionID, Ref};
-use crate::database::DBResult;
+use crate::database::{self, DBResult};
 
 /// Represents a recipe for making something edible.
 ///
@@ -55,9 +55,10 @@ impl Recipe {
             .fetch_one(&mut *transaction)
             .await?;
 
-            // TODO: Raise a better error here
             if num_categories_with_this_id != 1 {
-                return Err(sqlx::Error::RowNotFound);
+                return Err(database::Error::BadArguments(
+                    "Invalid category".to_owned(),
+                ));
             }
 
             sqlx::query(

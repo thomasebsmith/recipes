@@ -1,5 +1,4 @@
 use std::convert::TryFrom;
-use std::io;
 
 use chrono::{offset::Utc, DateTime, Duration, NaiveDateTime};
 use log::warn;
@@ -7,7 +6,7 @@ use serde::{Serialize, Serializer};
 use sqlx::{Any, Transaction};
 
 use super::{Ingredient, Model, Ref};
-use crate::database::DBResult;
+use crate::database::{self, DBResult};
 
 #[derive(Clone, Copy, Serialize)]
 #[repr(i64)]
@@ -78,9 +77,10 @@ impl RecipeVersion {
         .fetch_one(&mut *transaction)
         .await?;
 
-        // TODO: Raise a better error here
         if matching_recipe_count != 1 {
-            return Err(sqlx::Error::RowNotFound);
+            return Err(database::Error::BadArguments(
+                "Invalid recipe".to_owned(),
+            ));
         }
 
         let last_version_id: Option<i64> = sqlx::query_scalar(
@@ -187,7 +187,7 @@ impl Model for RecipeVersion {
         let Some(created_naive) =
             NaiveDateTime::from_timestamp_opt(created_secs_since_epoch, 0)
         else {
-            return Err(sqlx::Error::Decode(
+            return Err(database::Error::Internal(
                 "Internal error: timestamp out-of-range".into(),
             ));
         };
@@ -251,13 +251,12 @@ fn try_into<T, F: TryInto<T>>(value: F) -> DBResult<T>
 where
     F::Error: Into<Box<dyn std::error::Error + Send + Sync>>,
 {
-    TryInto::<T>::try_into(value).map_err(to_sqlx_error)
+    TryInto::<T>::try_into(value).map_err(to_db_error)
 }
 
-fn to_sqlx_error<E>(error: E) -> sqlx::Error
+fn to_db_error<E>(error: E) -> database::Error
 where
     E: Into<Box<dyn std::error::Error + Send + Sync>>,
 {
-    // Not quite right, but this shouldn't happen anyway...
-    sqlx::Error::Io(io::Error::new(io::ErrorKind::Other, error))
+    database::Error::Internal(error.into().to_string())
 }

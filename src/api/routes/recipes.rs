@@ -58,7 +58,7 @@ async fn get_recipe(
                 })
             })
             .await
-            .map_err(Error::from_sqlx)?,
+            .map_err(Error::from_db)?,
     ))
 }
 
@@ -88,7 +88,7 @@ async fn create_recipe(
             })
         })
         .await
-        .map_err(Error::from_sqlx)?;
+        .map_err(Error::from_db)?;
 
     Ok(Json(Recipe {
         id,
