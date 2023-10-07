@@ -21,6 +21,7 @@ async fn list_ingredients(
         database
             .with_transaction(move |transaction| {
                 Box::pin(async move {
+                    // TODO: Move this elsewhere.
                     const LISTING_LIMIT: i64 = 1024;
 
                     let result: Vec<(i64, String, f64)> = sqlx::query_as(
