@@ -8,6 +8,7 @@ use axum::{
 use log::debug;
 use serde::Deserialize;
 
+use crate::api::constants::LISTING_LIMIT;
 use crate::api::utils::Error;
 use crate::database::Database;
 use crate::models::{Ingredient, Model};
@@ -21,9 +22,6 @@ async fn list_ingredients(
         database
             .with_transaction(move |transaction| {
                 Box::pin(async move {
-                    // TODO: Move this elsewhere.
-                    const LISTING_LIMIT: i64 = 1024;
-
                     let result: Vec<(i64, String, f64)> = sqlx::query_as(
                         "SELECT id, name, energy_density \
                          FROM ingredients ORDER BY id LIMIT $1",

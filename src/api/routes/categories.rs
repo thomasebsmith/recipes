@@ -8,6 +8,7 @@ use axum::{
 use log::debug;
 use serde::Deserialize;
 
+use crate::api::constants::LISTING_LIMIT;
 use crate::api::utils::Error;
 use crate::database::Database;
 use crate::models::{Category, Model};
@@ -21,9 +22,6 @@ async fn list_categories(
         database
             .with_transaction(move |transaction| {
                 Box::pin(async move {
-                    // TODO: Move this elsewhere.
-                    const LISTING_LIMIT: i64 = 1024;
-
                     let results: Vec<(i64, String)> = sqlx::query_as(
                         "SELECT id, name FROM categories ORDER BY id LIMIT $1",
                     )
