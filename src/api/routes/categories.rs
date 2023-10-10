@@ -13,6 +13,7 @@ use crate::api::utils::Error;
 use crate::database::Database;
 use crate::models::{Category, Model};
 
+/// Lists all the categories that a recipe can be contained in.
 async fn list_categories(
     State(database): State<Arc<Database>>,
 ) -> Result<Json<Vec<Category>>, Error> {
