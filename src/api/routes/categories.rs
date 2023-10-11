@@ -41,6 +41,7 @@ async fn list_categories(
     ))
 }
 
+/// Retrieves a category by ID.
 async fn get_category(
     State(database): State<Arc<Database>>,
     Path(category_id): Path<i64>,
@@ -59,11 +60,13 @@ async fn get_category(
     ))
 }
 
+/// Represents the data needed to create a new category.
 #[derive(Deserialize)]
 struct CreateCategoryData {
     name: String,
 }
 
+/// Creates a category and returns the new category's JSON, including its ID.
 async fn create_category(
     State(database): State<Arc<Database>>,
     Json(data): Json<CreateCategoryData>,
@@ -83,6 +86,7 @@ async fn create_category(
     Ok(Json(Category { id, name }))
 }
 
+/// Creates a router that serves all category routes.
 pub fn create_router(database: Arc<Database>) -> Router {
     Router::new()
         .route("/", get(list_categories))
