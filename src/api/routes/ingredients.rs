@@ -13,6 +13,7 @@ use crate::api::utils::Error;
 use crate::database::Database;
 use crate::models::{Ingredient, Model};
 
+/// Lists all the ingredients that are in the database.
 async fn list_ingredients(
     State(database): State<Arc<Database>>,
 ) -> Result<Json<Vec<Ingredient>>, Error> {
