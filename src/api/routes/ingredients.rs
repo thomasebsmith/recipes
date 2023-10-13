@@ -46,6 +46,7 @@ async fn list_ingredients(
     ))
 }
 
+/// Retrieves an ingredient by ID.
 async fn get_ingredient(
     State(database): State<Arc<Database>>,
     Path(ingredient_id): Path<i64>,
@@ -64,12 +65,14 @@ async fn get_ingredient(
     ))
 }
 
+/// Represents the data needed to create a new ingredient.
 #[derive(Deserialize)]
 struct CreateIngredientData {
     name: String,
     energy_density: f64,
 }
 
+/// Creates an ingredient and returns the ingredient's JSON, including its ID.
 async fn create_ingredient(
     State(database): State<Arc<Database>>,
     Json(data): Json<CreateIngredientData>,
@@ -98,6 +101,7 @@ async fn create_ingredient(
     }))
 }
 
+/// Creates a router that serves all ingredient routes.
 pub fn create_router(database: Arc<Database>) -> Router {
     Router::new()
         .route("/", get(list_ingredients))
