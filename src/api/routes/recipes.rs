@@ -9,12 +9,13 @@ use axum::{
 use log::debug;
 use serde::Deserialize;
 
+use crate::api::constants::DEFAULT_PAGE_SIZE;
 use crate::api::utils::Error;
 use crate::database::Database;
 use crate::models::{Category, Model, Recipe, Ref};
 
 fn default_filter_limit() -> u64 {
-    100
+    DEFAULT_PAGE_SIZE
 }
 
 #[derive(Deserialize)]
