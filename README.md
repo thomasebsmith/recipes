@@ -40,8 +40,8 @@ code layout, etc. are subject to arbitrary changes.
 - SQLite-specific database optimizations
 
 ### v0.4
-- Ability to record recipe attempts with notes
-- API documentation
+- Ability to record and view recipe attempts with notes
+- Complete API documentation
 - Testing on a Raspberry Pi
 
 ### v0.5
