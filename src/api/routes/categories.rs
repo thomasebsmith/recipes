@@ -71,7 +71,7 @@ async fn create_category(
     State(database): State<Arc<Database>>,
     Json(data): Json<CreateCategoryData>,
 ) -> Result<Json<Category>, Error> {
-    debug!("Creating category");
+    debug!("Creating category with name {}", data.name);
 
     let name = data.name.clone();
     let id = database
