@@ -77,7 +77,7 @@ async fn create_ingredient(
     State(database): State<Arc<Database>>,
     Json(data): Json<CreateIngredientData>,
 ) -> Result<Json<Ingredient>, Error> {
-    debug!("Creating ingredient");
+    debug!("Creating ingredient with name {}", data.name);
 
     let name = data.name.clone();
     let id = database
