@@ -73,7 +73,7 @@ async fn create_recipe(
     State(database): State<Arc<Database>>,
     Json(data): Json<CreateRecipeData>,
 ) -> Result<Json<Recipe>, Error> {
-    debug!("Creating recipe");
+    debug!("Creating recipe with name {}", data.name);
 
     let name = data.name.clone();
     let categories = data
