@@ -136,6 +136,7 @@ impl Model for Recipe {
         &mut self,
         transaction: &mut Transaction<'_, Any>,
     ) -> DBResult<()> {
+        // We have refs to versions and categories that may need to be filled.
         for version in self.versions.values_mut() {
             version.fill(transaction).await?;
         }
