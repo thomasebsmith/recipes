@@ -14,6 +14,8 @@ use crate::api::utils::Error;
 use crate::database::Database;
 use crate::models::{Category, Model, Recipe, Ref};
 
+mod versions;
+
 fn default_filter_limit() -> u64 {
     DEFAULT_PAGE_SIZE
 }
@@ -104,5 +106,6 @@ pub fn create_router(database: Arc<Database>) -> Router {
         .route("/", get(list_recipes))
         .route("/", post(create_recipe))
         .route("/:recipe_id", get(get_recipe))
+        .nest("/:recipe_id", versions::create_router())
         .with_state(database)
 }
