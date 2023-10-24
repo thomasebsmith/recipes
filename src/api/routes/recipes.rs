@@ -101,11 +101,11 @@ async fn create_recipe(
     }))
 }
 
-pub fn create_router(database: Arc<Database>) -> Router {
+pub fn create_router<S>(database: Arc<Database>) -> Router<S> {
     Router::new()
         .route("/", get(list_recipes))
         .route("/", post(create_recipe))
         .route("/:recipe_id", get(get_recipe))
-        .nest("/:recipe_id", versions::create_router())
+        .nest("/:recipe_id", versions::create_router(database.clone()))
         .with_state(database)
 }

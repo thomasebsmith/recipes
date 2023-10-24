@@ -87,7 +87,7 @@ async fn create_category(
 }
 
 /// Creates a router that serves all category routes.
-pub fn create_router(database: Arc<Database>) -> Router {
+pub fn create_router<S>(database: Arc<Database>) -> Router<S> {
     Router::new()
         .route("/", get(list_categories))
         .route("/", post(create_category))

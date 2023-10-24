@@ -35,6 +35,8 @@ async fn get_version(
     ))
 }
 
-pub fn create_router() -> Router<Arc<Database>> {
-    Router::new().route("/:version_id", get(get_version))
+pub fn create_router<S>(database: Arc<Database>) -> Router<S> {
+    Router::new()
+        .route("/:version_id", get(get_version))
+        .with_state(database)
 }

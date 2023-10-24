@@ -102,7 +102,7 @@ async fn create_ingredient(
 }
 
 /// Creates a router that serves all ingredient routes.
-pub fn create_router(database: Arc<Database>) -> Router {
+pub fn create_router<S>(database: Arc<Database>) -> Router<S> {
     Router::new()
         .route("/", get(list_ingredients))
         .route("/", post(create_ingredient))
