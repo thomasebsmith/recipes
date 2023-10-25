@@ -10,7 +10,4 @@ pub use ingredient::Ingredient;
 pub use model::Model;
 pub use modelref::Ref;
 pub use recipe::Recipe;
-pub use recipeversion::{
-    Instruction, MeasurementType, QuantifiedIngredient, RecipeVersion,
-    RecipeVersionID,
-};
+pub use recipeversion::{RecipeVersion, RecipeVersionID};
