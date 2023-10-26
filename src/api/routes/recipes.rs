@@ -106,6 +106,9 @@ pub fn create_router<S>(database: Arc<Database>) -> Router<S> {
         .route("/", get(list_recipes))
         .route("/", post(create_recipe))
         .route("/:recipe_id", get(get_recipe))
-        .nest("/:recipe_id", versions::create_router(database.clone()))
+        .nest(
+            "/:recipe_id/versions",
+            versions::create_router(database.clone()),
+        )
         .with_state(database)
 }
