@@ -47,7 +47,7 @@ code layout, etc. are subject to arbitrary changes.
 
 ### v0.5
 - Admin interface with server status
-- Traffic statistics
+- Traffic statistics (optionally collected)
 - Database backup integration
 
 ### v0.6
