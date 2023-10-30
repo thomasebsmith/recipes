@@ -58,6 +58,25 @@ pub struct RecipeVersionID {
     pub version_id: i64,
 }
 
+async fn ensure_recipe_visible(
+    transaction: &mut Transaction<'_, Any>,
+    recipe_id: i64,
+) -> DBResult<()> {
+    let matching_recipe_count: i64 = sqlx::query_scalar(
+        "SELECT COUNT(id) FROM recipes \
+         WHERE id = $1 AND NOT hidden",
+    )
+    .bind(recipe_id)
+    .fetch_one(&mut *transaction)
+    .await?;
+
+    if matching_recipe_count != 1 {
+        Err(database::Error::BadArguments("Invalid recipe".to_owned()))
+    } else {
+        Ok(())
+    }
+}
+
 impl RecipeVersion {
     // TODO: Use this in the API
     #[allow(dead_code)]
@@ -69,19 +88,7 @@ impl RecipeVersion {
         instructions: Vec<Instruction>,
         duration: Duration,
     ) -> DBResult<RecipeVersionID> {
-        let matching_recipe_count: i64 = sqlx::query_scalar(
-            "SELECT COUNT(id) FROM recipes \
-             WHERE id = $1",
-        )
-        .bind(recipe_id)
-        .fetch_one(&mut *transaction)
-        .await?;
-
-        if matching_recipe_count != 1 {
-            return Err(database::Error::BadArguments(
-                "Invalid recipe".to_owned(),
-            ));
-        }
+        ensure_recipe_visible(&mut *transaction, recipe_id).await?;
 
         let last_version_id: Option<i64> = sqlx::query_scalar(
             "SELECT MAX(version_id) FROM recipes_versions \
@@ -153,6 +160,8 @@ impl Model for RecipeVersion {
         transaction: &mut Transaction<'_, Any>,
         id: Self::ID,
     ) -> DBResult<Self> {
+        ensure_recipe_visible(&mut *transaction, id.recipe_id).await?;
+
         let (created_secs_since_epoch, duration_secs): (i64, i64) =
             sqlx::query_as(
                 "SELECT created, duration FROM recipes_versions \
