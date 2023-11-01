@@ -34,6 +34,7 @@ code layout, etc. are subject to arbitrary changes.
 
 ### v0.2
 - HTML UI for viewing, creating, and editing recipes and ingredients
+- Basic CSS styling for HTML UI
 
 ### v0.3
 - API and UI for searching for recipes and ingredients by name, composition,
