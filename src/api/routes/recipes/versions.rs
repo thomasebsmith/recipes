@@ -7,17 +7,65 @@ use axum::{
 };
 use log::debug;
 
+use crate::api::constants::LISTING_LIMIT;
 use crate::api::utils::Error;
-use crate::database::Database;
+use crate::database::{self, Database};
 use crate::models::{Model, RecipeVersion, RecipeVersionID};
 
 async fn list_versions(
-    State(_database): State<Arc<Database>>,
+    State(database): State<Arc<Database>>,
     Path(recipe_id): Path<i64>,
 ) -> Result<Json<Vec<RecipeVersion>>, Error> {
     debug!("Listing all versions of recipe {recipe_id}");
 
-    Ok(Json(vec![]))
+    Ok(Json(
+        database
+            .with_transaction(move |transaction| {
+                Box::pin(async move {
+                    let matching_recipe_count: i64 = sqlx::query_scalar(
+                        "SELECT COUNT(id) FROM recipes \
+                         WHERE id = $1 AND NOT hidden",
+                    )
+                    .bind(recipe_id)
+                    .fetch_one(&mut *transaction)
+                    .await?;
+
+                    if matching_recipe_count != 1 {
+                        return Err(database::Error::BadArguments(
+                            "Invalid recipe".to_owned(),
+                        ));
+                    }
+
+                    // TODO: Make this more efficient
+                    let version_ids: Vec<i64> = sqlx::query_scalar(
+                        "SELECT version_id FROM recipes_versions \
+                         WHERE recipe_id = $1 ORDER BY version_id LIMIT $2",
+                    )
+                    .bind(recipe_id)
+                    .bind(LISTING_LIMIT)
+                    .fetch_all(&mut *transaction)
+                    .await?;
+
+                    let mut versions: Vec<RecipeVersion> = vec![];
+
+                    for version_id in version_ids.into_iter() {
+                        let version = RecipeVersion::get_filled(
+                            &mut *transaction,
+                            RecipeVersionID {
+                                recipe_id,
+                                version_id,
+                            },
+                        )
+                        .await?;
+                        versions.push(version);
+                    }
+
+                    Ok(versions)
+                })
+            })
+            .await
+            .map_err(Error::from_db)?,
+    ))
 }
 
 async fn get_version(

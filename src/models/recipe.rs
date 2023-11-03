@@ -93,7 +93,8 @@ impl Model for Recipe {
 
         // Get all version IDs associated with this recipe.
         let version_ids: Vec<i64> = sqlx::query_scalar(
-            "SELECT version_id FROM recipes_versions WHERE recipe_id = $1",
+            "SELECT version_id FROM recipes_versions \
+             WHERE recipe_id = $1 ORDER BY version_id",
         )
         .bind(id)
         .fetch_all(&mut *transaction)
