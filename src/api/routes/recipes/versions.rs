@@ -12,6 +12,10 @@ use crate::api::utils::Error;
 use crate::database::{self, Database};
 use crate::models::{Model, RecipeVersion, RecipeVersionID};
 
+/// Lists all versions of the recipe with the id `recipe_id`, using `database`
+/// to retrieve the recipes.
+///
+/// Returns an error if `recipe_id` does not refer to a visible recipe.
 async fn list_versions(
     State(database): State<Arc<Database>>,
     Path(recipe_id): Path<i64>,
@@ -36,7 +40,7 @@ async fn list_versions(
                         ));
                     }
 
-                    // TODO: Make this more efficient
+                    // TODO: Make this more efficient by merging queries
                     let version_ids: Vec<i64> = sqlx::query_scalar(
                         "SELECT version_id FROM recipes_versions \
                          WHERE recipe_id = $1 ORDER BY version_id LIMIT $2",
