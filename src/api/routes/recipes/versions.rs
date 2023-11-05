@@ -72,6 +72,7 @@ async fn list_versions(
     ))
 }
 
+/// Gets the version with ID `version_id` of the recipe with ID `recipe_id`.
 async fn get_version(
     State(database): State<Arc<Database>>,
     Path(recipe_id): Path<i64>,
