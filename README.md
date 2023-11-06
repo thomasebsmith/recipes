@@ -7,7 +7,8 @@ It is designed for limited-resource deployment, such as on a Raspberry Pi.
 It was originally created by Thomas Smith.
 
 ## Prerequisites
-- A recent nightly Rust toolchain
+- A recent nightly Rust toolchain (note: this project does not build on the
+  2023-11-03 or more recent nightlies)
 - sqlite3 (to initialize the database)
 
 ## Quick Start
