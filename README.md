@@ -8,7 +8,8 @@ It was originally created by Thomas Smith.
 
 ## Prerequisites
 - A recent nightly Rust toolchain (**note: this project does not build on the
-  2023-11-03 or more recent nightlies**)
+  2023-11-03 or more recent nightlies due to
+  [this rustc issue](https://github.com/rust-lang/rust/issues/117598)**)
 - sqlite3 (to initialize the database)
 
 ## Quick Start
