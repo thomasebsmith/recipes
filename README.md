@@ -1,8 +1,9 @@
 # Recipes
 **Recipes** is a recipe book website. It is written in Rust, and it uses SQLite
-(via SQLx) and Axum.
+(via SQLx) and Axum internally.
 
-It is designed for limited-resource deployment, such as on a Raspberry Pi.
+It is designed for good performance in limited-resource deployments, such as on
+Raspberry Pis.
 
 It was originally created by Thomas Smith.
 
