@@ -97,6 +97,9 @@ async fn get_version(
     ))
 }
 
+/// Creates a router that serves version-specific routes.
+///
+/// This router must be nested under a path that provides `:recipe_id`.
 pub fn create_router<S>(database: Arc<Database>) -> Router<S> {
     Router::new()
         .route("/", get(list_versions))
