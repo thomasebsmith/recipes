@@ -48,6 +48,7 @@ async fn list_recipes(Query(filter): Query<RecipeFilter>) -> Json<Vec<Recipe>> {
     Json::<Vec<Recipe>>(vec![])
 }
 
+/// Retrieves the recipe with ID `recipe_id`.
 async fn get_recipe(
     State(database): State<Arc<Database>>,
     Path(recipe_id): Path<i64>,
