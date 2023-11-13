@@ -38,7 +38,7 @@ impl RecipeFilter {
     }
 }
 
-/// Lists all recipes in the database.
+/// Lists all recipes in the database matching `filter`.
 async fn list_recipes(Query(filter): Query<RecipeFilter>) -> Json<Vec<Recipe>> {
     debug!(
         "Listing recipes: {} (not yet implemented)",
@@ -73,6 +73,8 @@ struct CreateRecipeData {
     categories: Vec<Category>,
 }
 
+/// Creates a new recipe. Returns the recipe JSON, including the new recipe's
+/// ID.
 async fn create_recipe(
     State(database): State<Arc<Database>>,
     Json(data): Json<CreateRecipeData>,
