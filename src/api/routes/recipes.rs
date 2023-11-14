@@ -105,6 +105,8 @@ async fn create_recipe(
     }))
 }
 
+/// Creates a router that handles routes for getting and creating recipes and
+/// their versions.
 pub fn create_router<S>(database: Arc<Database>) -> Router<S> {
     Router::new()
         .route("/", get(list_recipes))
