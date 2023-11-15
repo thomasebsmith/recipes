@@ -20,6 +20,9 @@ fn default_filter_limit() -> u64 {
     DEFAULT_PAGE_SIZE
 }
 
+/// A filter to determine which recipes to list.
+///
+/// The `text` filters results to only recipes containing certain keywords.
 #[derive(Deserialize)]
 struct RecipeFilter {
     text: Option<String>,
