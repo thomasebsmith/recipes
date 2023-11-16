@@ -32,6 +32,7 @@ struct RecipeFilter {
 }
 
 impl RecipeFilter {
+    /// Generates a summary of this filter for debugging purposes.
     fn summary(&self) -> String {
         if let Some(ref text) = self.text {
             format!("Recipes matching \"{}\" with limit {}", text, self.limit)
