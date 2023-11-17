@@ -71,6 +71,9 @@ async fn get_recipe(
     ))
 }
 
+/// The data required to create a new recipe.
+///
+/// Note that a new recipe will not have any versions.
 #[derive(Deserialize)]
 struct CreateRecipeData {
     name: String,
