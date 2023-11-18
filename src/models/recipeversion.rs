@@ -78,7 +78,6 @@ async fn ensure_recipe_visible(
 }
 
 impl RecipeVersion {
-    // TODO: Use this in the API
     #[allow(dead_code)]
     pub async fn store_new(
         transaction: &mut Transaction<'_, Any>,
