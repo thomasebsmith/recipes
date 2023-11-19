@@ -8,6 +8,7 @@ use sqlx::{Any, Transaction};
 use super::{Ingredient, Model, Ref};
 use crate::database::{self, DBResult};
 
+/// The kind of quantity of a recipe ingredient measurement.
 #[derive(Clone, Copy, Serialize)]
 #[repr(i64)]
 pub enum MeasurementType {
