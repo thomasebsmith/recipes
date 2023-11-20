@@ -30,6 +30,7 @@ impl TryFrom<i64> for MeasurementType {
     }
 }
 
+/// A recipe ingredient paired with its quantity.
 #[derive(Serialize)]
 pub struct QuantifiedIngredient {
     pub ingredient: Ref<Ingredient>,
