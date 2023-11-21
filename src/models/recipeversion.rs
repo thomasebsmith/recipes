@@ -38,6 +38,7 @@ pub struct QuantifiedIngredient {
     pub measurement: MeasurementType,
 }
 
+/// A step that should be performed as part of a recipe.
 #[derive(Serialize)]
 pub struct Instruction {
     pub text: String,
