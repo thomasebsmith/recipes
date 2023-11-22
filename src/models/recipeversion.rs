@@ -44,6 +44,7 @@ pub struct Instruction {
     pub text: String,
 }
 
+/// A specific version of a recipe, with certain ingredients and instructions.
 #[derive(Serialize)]
 pub struct RecipeVersion {
     pub id: i64,
