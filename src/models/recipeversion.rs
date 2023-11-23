@@ -20,6 +20,8 @@ pub enum MeasurementType {
 impl TryFrom<i64> for MeasurementType {
     type Error = ();
 
+    /// Attempts to convert from a database value (integer) to a
+    /// `MeasurementType`.
     fn try_from(value: i64) -> Result<Self, Self::Error> {
         match value {
             0 => Ok(Self::Mass),
