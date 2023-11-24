@@ -167,6 +167,7 @@ impl Model for RecipeVersion {
     ) -> DBResult<Self> {
         ensure_recipe_visible(&mut *transaction, id.recipe_id).await?;
 
+        // Retrieve everything needed from the recipes_versions table.
         let (created_secs_since_epoch, duration_secs): (i64, i64) =
             sqlx::query_as(
                 "SELECT created, duration FROM recipes_versions \
@@ -177,6 +178,7 @@ impl Model for RecipeVersion {
             .fetch_one(&mut *transaction)
             .await?;
 
+        // Retrieve everything needed from the recipes_ingredients table.
         let ingredients_raw: Vec<(i64, f64, i64)> = sqlx::query_as(
             "SELECT ingredient_id, quantity, measurement FROM \
               recipes_ingredients \
@@ -188,6 +190,7 @@ impl Model for RecipeVersion {
         .fetch_all(&mut *transaction)
         .await?;
 
+        // Retrieve everything needed from the recipes_instructions table.
         let instructions_raw: Vec<String> = sqlx::query_scalar(
             "SELECT step_text FROM recipes_instructions \
                 WHERE recipe_id = $1 AND version_id = $2 \
@@ -198,6 +201,7 @@ impl Model for RecipeVersion {
         .fetch_all(transaction)
         .await?;
 
+        // Parse and validate what was retrieved from the tables.
         let Some(created_naive) =
             NaiveDateTime::from_timestamp_opt(created_secs_since_epoch, 0)
         else {
