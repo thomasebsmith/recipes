@@ -57,8 +57,8 @@ code layout, etc. are subject to arbitrary changes.
 - Ability to track current food supplies and determine possible recipes
 
 ## License
-This project is available under the MIT License. See [LICENSE](./LICENSE) for
-details.
+This project is available as open-source software under the MIT License. See
+[LICENSE](./LICENSE) for details.
 
 ## Contributing
 To contribute to this repository, please find an existing issue or create one
