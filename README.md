@@ -9,7 +9,7 @@ It was originally created by Thomas Smith.
 
 ## Prerequisites
 - A recent nightly Rust toolchain
-- sqlite3 (to initialize the database)
+- sqlite3 (if desired to initialize the database)
 
 ## Quick Start
 Run these commands in a Unix-like environment:
