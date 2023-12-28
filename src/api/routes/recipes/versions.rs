@@ -52,7 +52,7 @@ async fn list_versions(
 
                     let mut versions: Vec<RecipeVersion> = vec![];
 
-                    for version_id in version_ids.into_iter() {
+                    for version_id in version_ids {
                         let version = RecipeVersion::get_filled(
                             &mut *transaction,
                             RecipeVersionID {
