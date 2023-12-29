@@ -5,7 +5,7 @@ It is written in Rust, and it uses SQLite (via SQLx) and Axum internally.
 It is designed to have good performance in limited-resource deployments, such as
 on Raspberry Pis.
 
-It was originally created by Thomas Smith.
+It was originally created and is currently developed by Thomas Smith.
 
 ## Prerequisites
 - A recent nightly Rust toolchain
