@@ -20,10 +20,10 @@ impl fmt::Display for Error {
     ) -> Result<(), fmt::Error> {
         match self {
             Self::BadArguments(message) => {
-                write!(formatter, "Bad arguments: {}", message)
+                write!(formatter, "Bad arguments: {message}")
             }
             Self::Internal(message) => {
-                write!(formatter, "Internal error: {}", message)
+                write!(formatter, "Internal error: {message}")
             }
             Self::Sql(error) => error.fmt(formatter),
         }
