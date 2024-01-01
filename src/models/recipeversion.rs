@@ -76,10 +76,10 @@ async fn ensure_recipe_visible(
     .fetch_one(&mut *transaction)
     .await?;
 
-    if matching_recipe_count != 1 {
-        Err(database::Error::BadArguments("Invalid recipe".to_owned()))
-    } else {
+    if matching_recipe_count == 1 {
         Ok(())
+    } else {
+        Err(database::Error::BadArguments("Invalid recipe".to_owned()))
     }
 }
 
