@@ -2,4 +2,4 @@
 
 cargo check || exit 1
 cargo fmt --check --all || exit 1
-cargo clippy --verbose -- -D warnings -D clippy::uninlined-format-args -D clippy::if_not_else || exit 1
+cargo clippy --verbose -- -D warnings -D clippy::uninlined-format-args -D clippy::if_not_else -D clippy::doc-markdown || exit 1
