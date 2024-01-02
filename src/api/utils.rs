@@ -18,7 +18,7 @@ pub struct Error {
 }
 
 impl Error {
-    /// Creates an API error from a SQLx error.
+    /// Creates an API error from a `SQLx` error.
     ///
     /// `RowNotFound` errors are converted into 404 errors.
     ///

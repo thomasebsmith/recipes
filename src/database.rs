@@ -18,7 +18,7 @@ use crate::config::DatabaseConfig;
 /// the successful operation, or a database error.
 pub type DBResult<T> = Result<T, Error>;
 
-/// A future that returns a DBResult<T>.
+/// A future that returns a `DBResult<T>`.
 pub trait DBFut<T>: Future<Output = DBResult<T>> {}
 impl<T, U: Future<Output = DBResult<T>>> DBFut<T> for U {}
 
