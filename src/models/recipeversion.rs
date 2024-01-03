@@ -219,7 +219,7 @@ impl Model for RecipeVersion {
                 QuantifiedIngredient {
                     ingredient: Ref::new(ingredient_id),
                     quantity,
-                    measurement: measurement.try_into().unwrap_or_else(|_| {
+                    measurement: measurement.try_into().unwrap_or_else(|()| {
                         warn!(
                             "Invalid measurement {} while retrieving \
                         recipe={} version={}, ingredient={}",
