@@ -66,4 +66,4 @@ that follows the project roadmap. Then, post on the issue that you intend to
 work on it. Finally, create a PR that resolves the issue.
 
 ## Copyright
-This project is copyright © 2023 Thomas Smith.
+This project is copyright © 2023-2024 Thomas Smith.
