@@ -56,7 +56,7 @@ impl Model for Category {
 
     async fn fill_refs(
         &mut self,
-        _transaction: &mut Transaction<'_, Any>,
+        _: &mut Transaction<'_, Any>,
     ) -> DBResult<()> {
         Ok(())
     }
