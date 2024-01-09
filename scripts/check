@@ -2,4 +2,5 @@
 
 cargo check || exit 1
 cargo fmt --check --all || exit 1
-cargo clippy --verbose -- -D warnings -D clippy::pedantic -A clippy::module-name-repetitions || exit 1
+cargo clippy --verbose -- -D warnings -D clippy::pedantic -A \
+  clippy::module-name-repetitions || exit 1
