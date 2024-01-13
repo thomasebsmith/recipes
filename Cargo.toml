@@ -1,6 +1,8 @@
 [package]
 name = "recipes"
 version = "0.1.0"
+repository = "https://github.com/thomasebsmith/recipes"
+readme = "README.md"
 edition = "2021"
 license = "MIT"
 
