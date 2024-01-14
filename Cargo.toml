@@ -1,6 +1,7 @@
 [package]
 name = "recipes"
 version = "0.1.0"
+description = "A web server for creating, editing, and viewing your recipes"
 repository = "https://github.com/thomasebsmith/recipes"
 readme = "README.md"
 edition = "2021"
