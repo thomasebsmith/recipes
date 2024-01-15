@@ -6,6 +6,7 @@ repository = "https://github.com/thomasebsmith/recipes"
 readme = "README.md"
 edition = "2021"
 license = "MIT"
+keywords = ["web-server"]
 
 [dependencies]
 axum = "0.6.18"
