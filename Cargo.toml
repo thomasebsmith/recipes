@@ -7,7 +7,7 @@ readme = "README.md"
 edition = "2021"
 license = "MIT"
 keywords = ["web-server"]
-categories = []
+categories = ["web-programming::http-server"]
 
 [dependencies]
 axum = "0.6.18"
