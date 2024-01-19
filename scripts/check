@@ -1,6 +1,11 @@
 #!/bin/sh
 
+# Make sure the program can be compiled
 cargo check || exit 1
+
+# Make sure the code is formatted correctly
 cargo fmt --check --all || exit 1
+
+# Lint the code
 cargo clippy --verbose -- -D warnings -D clippy::pedantic -D clippy::cargo -A \
   clippy::module-name-repetitions -A clippy::multiple_crate_versions || exit 1
