@@ -65,5 +65,7 @@ To contribute to this repository, please find an existing issue or create one
 that follows the project roadmap. Then, post on the issue that you intend to
 work on it. Finally, create a PR that resolves the issue.
 
+All contributed work will be incorporated under the terms of the MIT License.
+
 ## Copyright
 This project is copyright © 2023-2024 Thomas Smith.
