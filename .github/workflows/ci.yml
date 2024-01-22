@@ -66,6 +66,6 @@ jobs:
       uses: ./.github/actions/setup-rust
       with:
         build-type: debug
-        toolchain-component: minimal
+        toolchain-profile: minimal
     - name: Run unit tests
       run: cargo test
