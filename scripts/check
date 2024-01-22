@@ -9,3 +9,6 @@ cargo fmt --check --all || exit 1
 # Lint the code
 cargo clippy --verbose -- -D warnings -D clippy::pedantic -D clippy::cargo -A \
   clippy::module-name-repetitions -A clippy::multiple_crate_versions || exit 1
+
+# Test the code
+cargo test || exit 1

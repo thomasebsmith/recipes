@@ -76,3 +76,72 @@ fn stringify_err<T, U: ToString>(result: Result<T, U>) -> Result<T, String> {
 fn default_max_connections() -> u32 {
     16
 }
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn test_defaults() {
+        let toml = "
+            [database]
+            connection_url = \"sqlite:///path/to/file.db\"
+
+            [server]
+            ip_address = \"1.2.3.4\"
+            port = 5678
+
+            [logging]
+            log_file_path = \"/path/to/file.log\"
+            verbosity = \"debug\"
+        ";
+
+        let config: Config = toml::from_str(toml).unwrap();
+        assert_eq!(config.database.connection_url, "sqlite:///path/to/file.db");
+        assert_eq!(config.database.max_connections, default_max_connections());
+        assert_eq!(
+            config.server.ip_address,
+            "1.2.3.4".parse::<IpAddr>().unwrap()
+        );
+        assert_eq!(config.server.port, 5678);
+        assert_eq!(
+            config.logging.log_file_path,
+            PathBuf::from("/path/to/file.log")
+        );
+        assert_eq!(config.logging.verbosity, log::LevelFilter::Debug);
+    }
+
+    #[test]
+    fn test_all_specified() {
+        let toml = "
+            [database]
+            connection_url = \"sqlite:///database-file.db\"
+            max_connections = 9876
+
+            [server]
+            ip_address = \"0.0.0.0\"
+            port = 80
+
+            [logging]
+            log_file_path = \"/log-file.log\"
+            verbosity = \"warn\"
+        ";
+
+        let config: Config = toml::from_str(toml).unwrap();
+        assert_eq!(
+            config.database.connection_url,
+            "sqlite:///database-file.db"
+        );
+        assert_eq!(config.database.max_connections, 9876);
+        assert_eq!(
+            config.server.ip_address,
+            "0.0.0.0".parse::<IpAddr>().unwrap()
+        );
+        assert_eq!(config.server.port, 80);
+        assert_eq!(
+            config.logging.log_file_path,
+            PathBuf::from("/log-file.log")
+        );
+        assert_eq!(config.logging.verbosity, log::LevelFilter::Warn);
+    }
+}
