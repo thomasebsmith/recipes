@@ -12,13 +12,18 @@ It was originally created and is currently developed by Thomas Smith.
 - sqlite3 (if desired to initialize the database)
 
 ## Quick Start
-Run these commands in a Unix-like environment:
+To start the server, run these commands in a Unix-like environment:
 ```sh
 $ sqlite3 /tmp/recipes.db < setup/create_tables.sql
 $ sqlite3 /tmp/recipes.db < setup/sample_data.sql
 $ cargo run resources/sample-config.toml
 # A server will listen on localhost port 8000 until it's killed
 # Log messages will go to /tmp/recipes.log
+```
+
+To run code checks, run the `check` script:
+```sh
+$ ./scripts/check
 ```
 
 ## Project Status
