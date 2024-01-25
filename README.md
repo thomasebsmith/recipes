@@ -24,6 +24,8 @@ $ cargo run resources/sample-config.toml
 To run code checks, run the `check` script:
 ```sh
 $ ./scripts/check
+    Checking recipes v0.1.0
+    ...
 ```
 
 ## Project Status
