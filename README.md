@@ -70,7 +70,7 @@ This project is available as open-source software under the MIT License. See
 ## Contributing
 To contribute to this repository, please find an existing issue or create one
 that follows the project roadmap. Then, post on the issue that you intend to
-work on it. Finally, create a PR that resolves the issue.
+work on it. Finally, create a PR to `master` that resolves the issue.
 
 All contributed work will be incorporated under the terms of the MIT License.
 
