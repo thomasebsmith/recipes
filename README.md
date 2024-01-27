@@ -21,7 +21,7 @@ $ cargo run resources/sample-config.toml
 # Log messages will go to /tmp/recipes.log
 ```
 
-To run code checks, run the `check` script:
+To run code checks (compilation, linting, etc.), run the `check` script:
 ```sh
 $ ./scripts/check
     Checking recipes v0.1.0
