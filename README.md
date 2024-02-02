@@ -35,8 +35,8 @@ code layout, etc. are subject to arbitrary changes.
 
 ## Roadmap
 ### v0.1 (In Progress)
-- API to view ingredients and recipes
-- API to create new ingredients and recipes
+- API to view ingredients and recipes [complete]
+- API to create new ingredients and recipes [complete]
 - API to create new versions of recipes
 - Basic database optimizations (low query count, ID cache)
 - Validation of all API endpoints
