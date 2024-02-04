@@ -41,6 +41,7 @@ async fn list_versions(
                     }
 
                     // TODO: Make this more efficient by merging queries
+                    // Merging queries will disallow using get_filled.
                     let version_ids: Vec<i64> = sqlx::query_scalar(
                         "SELECT version_id FROM recipes_versions \
                          WHERE recipe_id = $1 ORDER BY version_id LIMIT $2",
