@@ -68,4 +68,4 @@ jobs:
         build-type: debug
         toolchain-profile: minimal
     - name: Run unit tests
-      run: cargo test
+      run: cargo test --workspace
