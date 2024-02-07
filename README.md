@@ -29,6 +29,9 @@ $ ./scripts/check
     ...
 ```
 
+Note: The build is currently failing due to a change in nightly Rust that
+affected a dependency.
+
 ## Project Status
 This project is currently in early development. It is not stable. SQL schemas,
 code layout, etc. are subject to arbitrary changes.
