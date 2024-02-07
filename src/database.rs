@@ -41,9 +41,9 @@ impl Database {
     ///
     /// Migrations will be applied while the `Database` is created.
     pub async fn new(config: DatabaseConfig) -> DBResult<Self> {
-        let mut connect_options =
-            AnyConnectOptions::from_str(&config.connection_url)?;
-        connect_options.log_statements(LevelFilter::Debug);
+        let connect_options =
+            AnyConnectOptions::from_str(&config.connection_url)?
+                .log_statements(LevelFilter::Debug);
 
         let connection_pool = AnyPoolOptions::new()
             .max_connections(config.max_connections)

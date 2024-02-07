@@ -10,11 +10,11 @@ keywords = ["web-server"]
 categories = ["web-programming::http-server"]
 
 [dependencies]
-axum = "0.6.18"
-chrono = { version = "0.4.26", features = ["serde"] }
-log = { version = "0.4.19", features = ["serde"] }
-serde = { version = "1.0.163", features = ["derive"] }
+axum = "0.7.4"
+chrono = { version = "0.4.33", features = ["serde"] }
+log = { version = "0.4.20", features = ["serde"] }
+serde = { version = "1.0.196", features = ["derive"] }
 simplelog = "0.12.1"
-sqlx = { version = "0.6", features = ["any", "runtime-tokio-native-tls", "sqlite"] }
-tokio = { version = "1.28.1", features = ["macros", "rt-multi-thread"] }
-toml = "0.7.4"
+sqlx = { version = "0.7", features = ["any", "runtime-tokio-native-tls", "sqlite"] }
+tokio = { version = "1.36.0", features = ["macros", "rt-multi-thread"] }
+toml = "0.8.10"

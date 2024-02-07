@@ -12,6 +12,7 @@ use std::sync::Arc;
 use axum::Router;
 use log::{error, info};
 use simplelog::{self, WriteLogger};
+use tokio::net::TcpListener;
 
 use crate::config::{get_config, LoggingConfig};
 use crate::database::Database;
@@ -70,13 +71,16 @@ async fn run_server() -> Result<(), String> {
         config.server.ip_address, config.server.port
     );
 
-    axum::Server::bind(&SocketAddr::new(
+    let listener = TcpListener::bind(&SocketAddr::new(
         config.server.ip_address,
         config.server.port,
     ))
-    .serve(app.into_make_service())
     .await
-    .map_err(|err| err.to_string())
+    .map_err(|err| err.to_string())?;
+
+    axum::serve(listener, app)
+        .await
+        .map_err(|err| err.to_string())
 }
 
 /// Runs the server until shutdown or an error occurs.

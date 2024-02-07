@@ -32,7 +32,7 @@ impl Recipe {
     ) -> DBResult<i64> {
         let last_recipe_id: Option<i64> =
             sqlx::query_scalar("SELECT MAX(id) FROM recipes")
-                .fetch_optional(&mut *transaction)
+                .fetch_optional(&mut **transaction)
                 .await?;
 
         let id = last_recipe_id.map_or(0, |old_id| old_id + 1);
@@ -43,7 +43,7 @@ impl Recipe {
         )
         .bind(id)
         .bind(name)
-        .execute(&mut *transaction)
+        .execute(&mut **transaction)
         .await?;
 
         for category in categories {
@@ -52,7 +52,7 @@ impl Recipe {
                 "SELECT COUNT(id) FROM categories WHERE id = $1",
             )
             .bind(category.id)
-            .fetch_one(&mut *transaction)
+            .fetch_one(&mut **transaction)
             .await?;
 
             if num_categories_with_this_id != 1 {
@@ -67,7 +67,7 @@ impl Recipe {
             )
             .bind(id)
             .bind(category.id)
-            .execute(&mut *transaction)
+            .execute(&mut **transaction)
             .await?;
         }
 
@@ -88,7 +88,7 @@ impl Model for Recipe {
             "SELECT name FROM recipes WHERE id = $1 AND NOT hidden",
         )
         .bind(id)
-        .fetch_one(&mut *transaction)
+        .fetch_one(&mut **transaction)
         .await?;
 
         // Get all version IDs associated with this recipe.
@@ -97,7 +97,7 @@ impl Model for Recipe {
              WHERE recipe_id = $1 ORDER BY version_id",
         )
         .bind(id)
-        .fetch_all(&mut *transaction)
+        .fetch_all(&mut **transaction)
         .await?;
 
         // For now, just create refs to the RecipeVersions.
@@ -119,7 +119,7 @@ impl Model for Recipe {
             "SELECT category_id FROM recipes_categories WHERE recipe_id = $1",
         )
         .bind(id)
-        .fetch_all(transaction)
+        .fetch_all(&mut **transaction)
         .await?;
 
         let categories =

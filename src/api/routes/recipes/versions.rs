@@ -31,7 +31,7 @@ async fn list_versions(
                          WHERE id = $1 AND NOT hidden",
                     )
                     .bind(recipe_id)
-                    .fetch_one(&mut *transaction)
+                    .fetch_one(&mut **transaction)
                     .await?;
 
                     if matching_recipe_count != 1 {
@@ -48,7 +48,7 @@ async fn list_versions(
                     )
                     .bind(recipe_id)
                     .bind(LISTING_LIMIT)
-                    .fetch_all(&mut *transaction)
+                    .fetch_all(&mut **transaction)
                     .await?;
 
                     let mut versions: Vec<RecipeVersion> = vec![];

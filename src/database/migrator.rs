@@ -49,7 +49,7 @@ impl<'a> Migrator<'a> {
         )
         .bind(self.current_version)
         .bind(starting_version)
-        .execute(&mut transaction)
+        .execute(&mut *transaction)
         .await?;
         if version_update_result.rows_affected() != 1 {
             return Err(sqlx::Error::RowNotFound.into());

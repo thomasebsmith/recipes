@@ -73,7 +73,7 @@ async fn ensure_recipe_visible(
          WHERE id = $1 AND NOT hidden",
     )
     .bind(recipe_id)
-    .fetch_one(&mut *transaction)
+    .fetch_one(&mut **transaction)
     .await?;
 
     if matching_recipe_count == 1 {
@@ -93,14 +93,14 @@ impl RecipeVersion {
         instructions: Vec<Instruction>,
         duration: Duration,
     ) -> DBResult<RecipeVersionID> {
-        ensure_recipe_visible(&mut *transaction, recipe_id).await?;
+        ensure_recipe_visible(transaction, recipe_id).await?;
 
         let last_version_id: Option<i64> = sqlx::query_scalar(
             "SELECT MAX(version_id) FROM recipes_versions \
             WHERE recipe_id = $1",
         )
         .bind(recipe_id)
-        .fetch_optional(&mut *transaction)
+        .fetch_optional(&mut **transaction)
         .await?;
 
         let version_id = last_version_id.map_or(0, |old_id| old_id + 1);
@@ -115,7 +115,7 @@ impl RecipeVersion {
         .bind(version_id)
         .bind(created.timestamp())
         .bind(duration.num_seconds())
-        .execute(&mut *transaction)
+        .execute(&mut **transaction)
         .await?;
 
         // Store the ingredient list (with measurements).
@@ -132,7 +132,7 @@ impl RecipeVersion {
             .bind(try_into::<i64, _>(list_order)?)
             .bind(ingredient.quantity)
             .bind(ingredient.measurement as i64)
-            .execute(&mut *transaction)
+            .execute(&mut **transaction)
             .await?;
         }
 
@@ -147,7 +147,7 @@ impl RecipeVersion {
             .bind(version_id)
             .bind(try_into::<i64, _>(step_number)?)
             .bind(instruction.text)
-            .execute(&mut *transaction)
+            .execute(&mut **transaction)
             .await?;
         }
 
@@ -165,7 +165,7 @@ impl Model for RecipeVersion {
         transaction: &mut Transaction<'_, Any>,
         id: Self::ID,
     ) -> DBResult<Self> {
-        ensure_recipe_visible(&mut *transaction, id.recipe_id).await?;
+        ensure_recipe_visible(transaction, id.recipe_id).await?;
 
         // Retrieve everything needed from the recipes_versions table.
         let (created_secs_since_epoch, duration_secs): (i64, i64) =
@@ -175,7 +175,7 @@ impl Model for RecipeVersion {
             )
             .bind(id.recipe_id)
             .bind(id.version_id)
-            .fetch_one(&mut *transaction)
+            .fetch_one(&mut **transaction)
             .await?;
 
         // Retrieve everything needed from the recipes_ingredients table.
@@ -187,7 +187,7 @@ impl Model for RecipeVersion {
         )
         .bind(id.recipe_id)
         .bind(id.version_id)
-        .fetch_all(&mut *transaction)
+        .fetch_all(&mut **transaction)
         .await?;
 
         // Retrieve everything needed from the recipes_instructions table.
@@ -198,7 +198,7 @@ impl Model for RecipeVersion {
         )
         .bind(id.recipe_id)
         .bind(id.version_id)
-        .fetch_all(transaction)
+        .fetch_all(&mut **transaction)
         .await?;
 
         // Parse and validate what was retrieved from the tables.

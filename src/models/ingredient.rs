@@ -26,7 +26,7 @@ impl Ingredient {
     ) -> DBResult<i64> {
         let last_ingredient_id: Option<i64> =
             sqlx::query_scalar("SELECT MAX(id) FROM ingredients")
-                .fetch_optional(&mut *transaction)
+                .fetch_optional(&mut **transaction)
                 .await?;
 
         let id = last_ingredient_id.map_or(0, |old_id| old_id + 1);
@@ -38,7 +38,7 @@ impl Ingredient {
         .bind(id)
         .bind(name)
         .bind(energy_density)
-        .execute(&mut *transaction)
+        .execute(&mut **transaction)
         .await?;
 
         Ok(id)
@@ -56,7 +56,7 @@ impl Model for Ingredient {
             "SELECT name, energy_density FROM ingredients WHERE id = $1",
         )
         .bind(id)
-        .fetch_one(transaction)
+        .fetch_one(&mut **transaction)
         .await?;
         Ok(Self {
             id,

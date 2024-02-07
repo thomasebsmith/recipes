@@ -21,7 +21,7 @@ impl Category {
     ) -> DBResult<i64> {
         let last_category_id: Option<i64> =
             sqlx::query_scalar("SELECT MAX(id) FROM categories")
-                .fetch_optional(&mut *transaction)
+                .fetch_optional(&mut **transaction)
                 .await?;
 
         let id = last_category_id.map_or(0, |old_id| old_id + 1);
@@ -32,7 +32,7 @@ impl Category {
         )
         .bind(id)
         .bind(name)
-        .execute(transaction)
+        .execute(&mut **transaction)
         .await?;
 
         Ok(id)
@@ -49,7 +49,7 @@ impl Model for Category {
         let name: String =
             sqlx::query_scalar("SELECT name FROM categories WHERE id = $1")
                 .bind(id)
-                .fetch_one(transaction)
+                .fetch_one(&mut **transaction)
                 .await?;
         Ok(Self { id, name })
     }

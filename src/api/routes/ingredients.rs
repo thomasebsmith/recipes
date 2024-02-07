@@ -28,7 +28,7 @@ async fn list_ingredients(
                          FROM ingredients ORDER BY id LIMIT $1",
                     )
                     .bind(LISTING_LIMIT)
-                    .fetch_all(transaction)
+                    .fetch_all(&mut **transaction)
                     .await?;
 
                     Ok(result

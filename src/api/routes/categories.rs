@@ -27,7 +27,7 @@ async fn list_categories(
                         "SELECT id, name FROM categories ORDER BY id LIMIT $1",
                     )
                     .bind(LISTING_LIMIT)
-                    .fetch_all(transaction)
+                    .fetch_all(&mut **transaction)
                     .await?;
 
                     Ok(results
