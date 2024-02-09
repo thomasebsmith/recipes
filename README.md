@@ -37,7 +37,7 @@ code layout, etc. are subject to arbitrary changes.
 ### v0.1 [In Progress]
 - API to view ingredients and recipes [complete]
 - API to create new ingredients and recipes [complete]
-- API to create new versions of recipes
+- API to create new versions of recipes [in progress]
 - Basic database optimizations (low query count, ID cache)
 - Validation of all API endpoints
 
