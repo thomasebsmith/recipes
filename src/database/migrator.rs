@@ -7,6 +7,7 @@ use sqlx::{Pool, Transaction};
 
 use super::{DBFut, DBResult};
 
+// TODO: Switch this file to use sqlx's built-in migrations.
 type Migration =
     dyn Fn(&mut Transaction<'static, Any>) -> Pin<Box<dyn DBFut<i64>>>;
 
