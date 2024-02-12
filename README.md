@@ -39,6 +39,7 @@ code layout, etc. are subject to arbitrary changes.
 - API to create new ingredients and recipes [complete]
 - API to create new versions of recipes [in progress]
 - Database migrations system [in progress]
+- Example data script [in progress]
 - Basic database optimizations (low query count, ID cache)
 - Validation of all API endpoints
 
