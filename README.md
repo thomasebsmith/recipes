@@ -55,6 +55,7 @@ code layout, etc. are subject to arbitrary changes.
 
 ### v0.4
 - Ability to record and view recipe attempts with notes
+- Ability to add prep/cook times to recipes
 - Complete API documentation
 - Visual design cleanup
 - Testing on a Raspberry Pi
