@@ -20,7 +20,7 @@ use crate::database::Database;
 /// Initializes logging based on the log file path and verbosity in `config`.
 fn init_logging(config: &LoggingConfig) -> Result<(), String> {
     println!(
-        "Logs will be written to {} with verbosity {}",
+        "Writing logs to path {} with verbosity {}",
         config.log_file_path.display(),
         config.verbosity
     );
