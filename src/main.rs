@@ -3,6 +3,7 @@ mod config;
 mod database;
 mod frontend;
 mod models;
+mod util;
 
 use std::fs::File;
 use std::net::SocketAddr;

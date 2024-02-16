@@ -4,6 +4,8 @@ use std::{env, fs};
 
 use serde::Deserialize;
 
+use crate::util::stringify_err;
+
 /// Configuration related to the database.
 #[derive(Deserialize)]
 pub struct DatabaseConfig {
@@ -65,12 +67,6 @@ pub fn get_config() -> Result<Config, String> {
     let config_file_contents = stringify_err(fs::read_to_string(&args[1]))?;
     let config = stringify_err(toml::from_str(&config_file_contents))?;
     Ok(config)
-}
-
-/// Converts a result containing an error type that is convertible to String
-/// into a result with a String error type.
-fn stringify_err<T, U: ToString>(result: Result<T, U>) -> Result<T, String> {
-    result.map_err(|err| err.to_string())
 }
 
 fn default_max_connections() -> u32 {
