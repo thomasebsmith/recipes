@@ -17,6 +17,7 @@ use tokio::net::TcpListener;
 
 use crate::config::{get_config, LoggingConfig};
 use crate::database::Database;
+use crate::util::stringify_err;
 
 /// Initializes logging based on the log file path and verbosity in `config`.
 fn init_logging(config: &LoggingConfig) -> Result<(), String> {
@@ -30,16 +31,16 @@ fn init_logging(config: &LoggingConfig) -> Result<(), String> {
         .set_time_format_rfc3339()
         .build();
 
-    WriteLogger::init(
+    stringify_err(WriteLogger::init(
         config.verbosity,
         simplelog_config,
-        File::options()
-            .create(true)
-            .append(true)
-            .open(&config.log_file_path)
-            .map_err(|err| err.to_string())?,
-    )
-    .map_err(|err| err.to_string())
+        stringify_err(
+            File::options()
+                .create(true)
+                .append(true)
+                .open(&config.log_file_path),
+        )?,
+    ))
 }
 
 /// Starts the server asynchronously and runs it until shutdown or an error
@@ -56,11 +57,8 @@ async fn run_server() -> Result<(), String> {
     info!("Starting server: recipes");
 
     info!("Connecting to database...");
-    let database = Arc::new(
-        Database::new(config.database)
-            .await
-            .map_err(|err| err.to_string())?,
-    );
+    let database =
+        Arc::new(stringify_err(Database::new(config.database).await)?);
     info!("Database connected (version = {})", database.get_version());
 
     let app = Router::new()
@@ -72,16 +70,15 @@ async fn run_server() -> Result<(), String> {
         config.server.ip_address, config.server.port
     );
 
-    let listener = TcpListener::bind(&SocketAddr::new(
-        config.server.ip_address,
-        config.server.port,
-    ))
-    .await
-    .map_err(|err| err.to_string())?;
+    let listener = stringify_err(
+        TcpListener::bind(&SocketAddr::new(
+            config.server.ip_address,
+            config.server.port,
+        ))
+        .await,
+    )?;
 
-    axum::serve(listener, app)
-        .await
-        .map_err(|err| err.to_string())
+    stringify_err(axum::serve(listener, app).await)
 }
 
 /// Runs the server until shutdown or an error occurs.
