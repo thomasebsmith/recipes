@@ -6,7 +6,7 @@ use serde::{Serialize, Serializer};
 use sqlx::{Any, Transaction};
 
 use super::{Ingredient, Model, Ref};
-use crate::database::{self, DBResult};
+use crate::database::{self, to_internal_db_error, DBResult};
 
 /// The kind of quantity of a recipe ingredient measurement.
 #[derive(Clone, Copy, Serialize)]
@@ -269,12 +269,5 @@ fn try_into<T, F: TryInto<T>>(value: F) -> DBResult<T>
 where
     F::Error: Into<Box<dyn std::error::Error + Send + Sync>>,
 {
-    TryInto::<T>::try_into(value).map_err(to_db_error)
-}
-
-fn to_db_error<E>(error: E) -> database::Error
-where
-    E: Into<Box<dyn std::error::Error + Send + Sync>>,
-{
-    database::Error::Internal(error.into().to_string())
+    TryInto::<T>::try_into(value).map_err(to_internal_db_error)
 }

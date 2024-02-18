@@ -31,3 +31,10 @@ impl fmt::Display for Error {
 }
 
 impl std::error::Error for Error {}
+
+pub fn to_internal_db_error<E>(error: E) -> Error
+where
+    E: Into<Box<dyn std::error::Error + Send + Sync>>,
+{
+    Error::Internal(error.into().to_string())
+}
