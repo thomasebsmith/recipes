@@ -8,4 +8,4 @@ pub const LISTING_LIMIT: i64 = 1024;
 ///
 /// This can be overriden on certain endpoints, but the page size cannot exceed
 /// `LISTING_LIMIT`.
-pub const DEFAULT_PAGE_SIZE: u64 = 100;
+pub const DEFAULT_PAGE_SIZE: u64 = 128;
