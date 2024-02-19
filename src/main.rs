@@ -12,7 +12,7 @@ use std::sync::Arc;
 
 use axum::Router;
 use log::{error, info};
-use simplelog::{self, WriteLogger};
+use simplelog::WriteLogger;
 use tokio::net::TcpListener;
 
 use crate::config::{get_config, LoggingConfig};
