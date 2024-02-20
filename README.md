@@ -42,6 +42,7 @@ code layout, etc. are subject to arbitrary changes.
 - Example data script [in progress]
 - Basic database optimizations (low query count/merged transactions, ID cache)
 - Validation of all API endpoints
+- Unit tests
 
 ### v0.2
 - HTML UI for viewing, creating, and editing recipes and ingredients
