@@ -3,7 +3,7 @@
 It is written in Rust, and it uses SQLite (via SQLx) and Axum internally.
 
 It is designed to have good performance in limited-resource deployments, such as
-on Raspberry Pis.
+on Raspberry Pis. It is designed for internal or small-scale deployment.
 
 It was created and is developed by Thomas Smith.
 
