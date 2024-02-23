@@ -40,9 +40,9 @@ code layout, etc. are subject to arbitrary changes.
 - API to create new versions of recipes [in progress]
 - Database migrations system [in progress]
 - Example data script [in progress]
+- Thorough unit tests [in progress]
 - Basic database optimizations (low query count/merged transactions, ID cache)
 - Validation of all API endpoints
-- Thorough unit tests
 
 ### v0.2
 - HTML UI for viewing, creating, and editing recipes and ingredients
