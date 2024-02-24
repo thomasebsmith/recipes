@@ -41,6 +41,7 @@ code layout, etc. are subject to arbitrary changes.
 - Database migrations system [in progress]
 - Example data script [in progress]
 - Thorough unit tests [in progress]
+- Refactor of internal database model code
 - Basic database optimizations (low query count/merged transactions, ID cache)
 - Validation of all API endpoints
 
@@ -51,7 +52,6 @@ code layout, etc. are subject to arbitrary changes.
 ### v0.3
 - API and UI for searching for recipes and ingredients by name, composition,
   time, etc.
-- Refactor of internal database model code
 - SQLite-specific database optimizations
 
 ### v0.4
