@@ -1,14 +1,23 @@
 #!/bin/sh
 
+fail_at_step() {
+  printf '\n%s: FAILED\n' "$1"
+  exit 1
+}
+
 # Make sure the program can be compiled
-cargo check || exit 1
+cargo check || fail_at_step 'Compile'
 
 # Make sure the code is formatted correctly
-cargo fmt --check --all || exit 1
+cargo fmt --check --all || fail_at_step 'Formatting'
 
 # Lint the code
 cargo clippy --verbose -- -D warnings -D clippy::pedantic -D clippy::cargo -A \
-  clippy::module-name-repetitions -A clippy::multiple_crate_versions || exit 1
+  clippy::module-name-repetitions -A clippy::multiple_crate_versions || \
+  fail_at_step 'Clippy'
 
 # Test the code
-cargo test --workspace || exit 1
+cargo test --workspace || fail_at_step 'Tests'
+
+
+printf 'All checks passed\n'
