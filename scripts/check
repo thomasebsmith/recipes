@@ -20,4 +20,4 @@ cargo clippy --verbose -- -D warnings -D clippy::pedantic -D clippy::cargo -A \
 cargo test --workspace || fail_at_step 'Tests'
 
 
-printf 'All checks passed\n'
+printf '\nAll checks passed\n'
