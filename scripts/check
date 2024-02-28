@@ -23,5 +23,5 @@ cargo clippy --verbose -- -D warnings -D clippy::pedantic -D clippy::cargo -A \
 # Test the code
 cargo test --workspace || fail_at_step 'Tests'
 
-
+# Print a success message
 printf '\nAll checks %spassed%s\n' "$green" "$reset"
