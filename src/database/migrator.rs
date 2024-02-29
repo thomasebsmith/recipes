@@ -35,6 +35,11 @@ impl<'a> Migrator<'a> {
     pub async fn run_migrations(&mut self) -> DBResult<()> {
         let starting_version = self.current_version;
 
+        debug!(
+            "Running database migrations starting at version \
+                {starting_version}"
+        );
+
         let migrations = get_migrations();
 
         let mut transaction = self.connection_pool.begin().await?;

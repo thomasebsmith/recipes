@@ -7,7 +7,7 @@ use std::pin::Pin;
 use std::str::FromStr;
 
 pub use error::{to_internal_db_error, Error};
-use log::LevelFilter;
+use log::{debug, LevelFilter};
 use migrator::Migrator;
 use sqlx::any::{Any, AnyConnectOptions, AnyPoolOptions};
 use sqlx::{ConnectOptions, Pool, Transaction};
@@ -41,6 +41,11 @@ impl Database {
     ///
     /// Migrations will be applied while the `Database` is created.
     pub async fn new(config: DatabaseConfig) -> DBResult<Self> {
+        debug!(
+            "Connecting to database using connection URL \"{}\"",
+            config.connection_url
+        );
+
         let connect_options =
             AnyConnectOptions::from_str(&config.connection_url)?
                 .log_statements(LevelFilter::Debug);
@@ -54,6 +59,8 @@ impl Database {
         migrator.run_migrations().await?;
 
         let version = migrator.get_current_version();
+
+        debug!("Database connected and migrated to version {version}");
 
         Ok(Self {
             connection_pool,
