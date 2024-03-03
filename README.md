@@ -9,7 +9,7 @@ It was created and is developed by Thomas Smith.
 
 ## Prerequisites
 - A recent nightly Rust toolchain
-- sqlite3 (recommended to initialize the database)
+- sqlite3 (required to initialize the database)
 
 ## Quick Start
 To start the server, run these commands in a Unix-like environment:
