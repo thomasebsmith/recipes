@@ -50,8 +50,8 @@ code layout, etc. are subject to arbitrary changes.
 - Basic CSS styling for the HTML UI
 
 ### v0.3
-- API and UI for searching for recipes and ingredients by name, composition,
-  time, etc.
+- API and UI for searching for recipes and ingredients by name, ingredients,
+  time, steps, etc.
 - SQLite-specific database optimizations
 
 ### v0.4
