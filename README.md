@@ -58,7 +58,7 @@ code layout, etc. are subject to arbitrary changes.
 - Ability to record and view recipe attempts with notes
 - Ability to add prep/cook times to recipes
 - Ability to add pictures to recipes and/or recipe attempts
-- Complete API documentation
+- Complete HTTP API documentation
 - Visual design cleanup
 - Testing on a Raspberry Pi
 
