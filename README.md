@@ -66,6 +66,7 @@ code layout, etc. are subject to arbitrary changes.
 - Admin interface with server status
 - Traffic statistics (optionally collected)
 - Database backup integration
+- Interactive server setup
 
 ### v0.6
 - Ability to track current food supplies and determine possible recipes
