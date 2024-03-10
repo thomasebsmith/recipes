@@ -52,7 +52,7 @@ pub struct Config {
 }
 
 /// Attempts to retrieve the configuration based on the file name in this
-/// program's arguments.
+/// program's arguments (retrieved from the global program environment).
 ///
 /// Returns the retrieved configuration or a string describing the error.
 pub fn get_config() -> Result<Config, String> {
