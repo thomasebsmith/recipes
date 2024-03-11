@@ -12,7 +12,7 @@ It was created and is developed by Thomas Smith.
 - sqlite3 (required to initialize the database)
 
 ## Quick Start
-To start the server, run these commands in a Unix-like environment:
+To start the server, run these commands (tested in a Unix-like environment):
 ```sh
 $ sqlite3 /tmp/recipes.db < setup/create_tables.sql
 $ sqlite3 /tmp/recipes.db < setup/sample_data.sql
