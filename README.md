@@ -53,6 +53,7 @@ code layout, etc. are subject to arbitrary changes.
 - API and UI for searching for recipes and ingredients by name, ingredients,
   time, steps, etc.
 - SQLite-specific database optimizations
+- Integration/functional tests
 
 ### v0.4
 - Ability to record and view recipe attempts with notes
