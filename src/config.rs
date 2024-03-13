@@ -35,6 +35,7 @@ pub struct LoggingConfig {
     pub log_file_path: PathBuf,
 
     /// The minimum verbosity below which logs are ignored.
+    #[serde(default = "default_logging_verbosity")]
     pub verbosity: log::LevelFilter,
 }
 
@@ -73,6 +74,10 @@ fn default_max_connections() -> u32 {
     16
 }
 
+fn default_logging_verbosity() -> log::LevelFilter {
+    log::LevelFilter::Info
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -89,7 +94,6 @@ mod tests {
 
             [logging]
             log_file_path = \"/path/to/file.log\"
-            verbosity = \"debug\"
         ";
 
         let config: Config = toml::from_str(toml).unwrap();
@@ -104,7 +108,7 @@ mod tests {
             config.logging.log_file_path,
             PathBuf::from("/path/to/file.log")
         );
-        assert_eq!(config.logging.verbosity, log::LevelFilter::Debug);
+        assert_eq!(config.logging.verbosity, log::LevelFilter::Info);
     }
 
     #[test]
