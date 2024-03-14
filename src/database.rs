@@ -69,6 +69,8 @@ impl Database {
     }
 
     /// Returns the current migration version of the database.
+    ///
+    /// This is the latest known version at the time of `Database` creation.
     pub fn get_version(&self) -> i64 {
         self.version
     }
