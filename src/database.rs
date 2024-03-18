@@ -99,3 +99,13 @@ impl Database {
 pub struct DBTransaction {
     transaction: Transaction<'static, Any>,
 }
+
+impl DBTransaction {
+    #[allow(dead_code)]
+    pub fn apply<T, Func>(&mut self, action: Func) -> T
+    where
+        Func: for<'a> FnOnce(&'a mut Transaction<'static, Any>) -> T,
+    {
+        action(&mut self.transaction)
+    }
+}
