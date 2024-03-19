@@ -95,7 +95,6 @@ impl Database {
     }
 }
 
-#[allow(dead_code)]
 pub struct DBTransaction {
     transaction: Transaction<'static, Any>,
 }
