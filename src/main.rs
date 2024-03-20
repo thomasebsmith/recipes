@@ -53,7 +53,10 @@ async fn run_server() -> Result<(), String> {
     let config = get_config()?;
 
     init_logging(&config.logging)?;
-    trace!("Logging initiated with verbosity {}", config.logging.verbosity);
+    trace!(
+        "Logging initiated with verbosity {}",
+        config.logging.verbosity
+    );
 
     info!("Starting server: recipes");
 
