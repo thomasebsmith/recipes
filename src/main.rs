@@ -11,7 +11,7 @@ use std::process::ExitCode;
 use std::sync::Arc;
 
 use axum::Router;
-use log::{error, info};
+use log::{error, info, trace};
 use simplelog::WriteLogger;
 use tokio::net::TcpListener;
 
@@ -53,6 +53,7 @@ async fn run_server() -> Result<(), String> {
     let config = get_config()?;
 
     init_logging(&config.logging)?;
+    trace!("Logging initiated with verbosity {}", config.logging.verbosity);
 
     info!("Starting server: recipes");
 
