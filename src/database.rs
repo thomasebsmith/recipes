@@ -107,4 +107,9 @@ impl DBTransaction {
     {
         action(&mut self.transaction)
     }
+
+    #[allow(dead_code)]
+    pub async fn commit(self) -> DBResult<()> {
+        Ok(self.transaction.commit().await?)
+    }
 }
