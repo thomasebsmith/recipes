@@ -112,4 +112,9 @@ impl DBTransaction {
     pub async fn commit(self) -> DBResult<()> {
         Ok(self.transaction.commit().await?)
     }
+
+    #[allow(dead_code)]
+    pub async fn rollback(self) -> DBResult<()> {
+        Ok(self.transaction.rollback().await?)
+    }
 }
