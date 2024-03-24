@@ -9,7 +9,9 @@ use std::str::FromStr;
 pub use error::{to_internal_db_error, Error};
 use log::{debug, trace, LevelFilter};
 use migrator::Migrator;
-use sqlx::any::{Any, AnyConnectOptions, AnyPoolOptions, install_default_drivers};
+use sqlx::any::{
+    install_default_drivers, Any, AnyConnectOptions, AnyPoolOptions,
+};
 use sqlx::{ConnectOptions, Pool, Transaction};
 
 use crate::config::DatabaseConfig;
