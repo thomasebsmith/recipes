@@ -7,9 +7,9 @@ use std::pin::Pin;
 use std::str::FromStr;
 
 pub use error::{to_internal_db_error, Error};
-use log::{debug, LevelFilter};
+use log::{debug, trace, LevelFilter};
 use migrator::Migrator;
-use sqlx::any::{Any, AnyConnectOptions, AnyPoolOptions};
+use sqlx::any::{Any, AnyConnectOptions, AnyPoolOptions, install_default_drivers};
 use sqlx::{ConnectOptions, Pool, Transaction};
 
 use crate::config::DatabaseConfig;
@@ -41,6 +41,9 @@ impl Database {
     ///
     /// Migrations will be applied while the `Database` is created.
     pub async fn new(config: DatabaseConfig) -> DBResult<Self> {
+        trace!("Installing SQLx default drivers");
+        install_default_drivers();
+
         debug!(
             "Connecting to database using connection URL \"{}\"",
             config.connection_url
