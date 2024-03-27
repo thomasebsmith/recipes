@@ -2,6 +2,7 @@ mod error;
 mod migrator;
 mod modelcache;
 mod transaction;
+mod types;
 
 use std::future::Future;
 use std::pin::Pin;
@@ -14,16 +15,9 @@ use sqlx::any::{
     install_default_drivers, Any, AnyConnectOptions, AnyPoolOptions,
 };
 use sqlx::{ConnectOptions, Pool, Transaction};
+pub use types::{DBFut, DBResult};
 
 use crate::config::DatabaseConfig;
-
-/// The result of a database query or operation. Contains either the result of
-/// the successful operation, or a database error.
-pub type DBResult<T> = Result<T, Error>;
-
-/// A future that returns a `DBResult<T>`.
-pub trait DBFut<T>: Future<Output = DBResult<T>> {}
-impl<T, U: Future<Output = DBResult<T>>> DBFut<T> for U {}
 
 /// Represents a recipes database.
 ///
