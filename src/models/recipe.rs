@@ -37,6 +37,7 @@ impl Recipe {
 
         let id = last_recipe_id.map_or(0, |old_id| old_id + 1);
 
+        // New recipes are not hidden (i.e. they haven't been deleted yet)
         sqlx::query(
             "INSERT INTO recipes (id, name, hidden) \
              VALUES ($1, $2, FALSE)",
