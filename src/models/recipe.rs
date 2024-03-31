@@ -49,6 +49,7 @@ impl Recipe {
 
         for category in categories {
             // Note: This only works because everything is one transaction
+            // Getting the new ID must be atomic with using it
             let num_categories_with_this_id: i64 = sqlx::query_scalar(
                 "SELECT COUNT(id) FROM categories WHERE id = $1",
             )
