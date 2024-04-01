@@ -8,6 +8,8 @@ pub struct DBTransaction {
 
 impl DBTransaction {
     #[allow(dead_code)]
+    /// Applies an action to the `SQLx` transaction contained within this
+    /// object.
     pub fn apply<T, Func>(&mut self, action: Func) -> T
     where
         Func: for<'a> FnOnce(&'a mut Transaction<'static, Any>) -> T,
