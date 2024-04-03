@@ -4,6 +4,8 @@
 # Temporary editor files
 *.swp
 
-# Operating system metadata
+# OS-specific metadata
+
+## macOS
 .DS_Store
 ._*
