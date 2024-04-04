@@ -26,8 +26,8 @@ use crate::config::DatabaseConfig;
 ///
 /// Automatically performs migrations as needed.
 pub struct Database {
-    connection_pool: Pool<Any>,
-    version: i64,
+    connection_pool: Pool<Any>, // The pool of connections to the database
+    version: i64,               // The version number reached after migrations
 }
 
 impl Database {
