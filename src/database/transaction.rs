@@ -3,7 +3,8 @@ use sqlx::{any::Any, Transaction};
 use super::DBResult;
 
 pub struct DBTransaction {
-    transaction: Transaction<'static, Any>,
+    transaction: Transaction<'static, Any>, /* The encapsulated SQLx
+                                             * transaction */
 }
 
 impl DBTransaction {
