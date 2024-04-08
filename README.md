@@ -45,7 +45,7 @@ code layout, etc. are subject to arbitrary changes.
 - Basic database optimizations (low query count/merged transactions, ID cache)
 - Validation of all API endpoints
 
-### v0.2
+### v0.2 [Planned for Late 2024]
 - HTML UI for viewing, creating, and editing recipes and ingredients
 - Basic CSS styling for the HTML UI
 
