@@ -49,7 +49,7 @@ code layout, etc. are subject to arbitrary changes.
 - HTML UI for viewing, creating, and editing recipes and ingredients
 - Basic CSS styling for the HTML UI
 
-### v0.3
+### v0.3 [Planned for Early 2025]
 - API and UI for searching for recipes and ingredients by name, ingredients,
   time, steps, etc.
 - SQLite-specific database optimizations
