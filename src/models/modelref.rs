@@ -61,6 +61,8 @@ where
         &self,
         serializer: S,
     ) -> Result<S::Ok, S::Error> {
+        // If we have the actual value, use it for serialization.
+        // Otherwise, serialize a map with just the model ID.
         if let Some(ref value) = self.value {
             value.serialize(serializer)
         } else {
