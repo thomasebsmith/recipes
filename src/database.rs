@@ -46,6 +46,9 @@ impl Database {
             config.connection_url
         );
 
+        // Log SQL statements at debug level. This way, they don't show up with
+        // the default logging configuration, but they can easily be enabled for
+        // debugging.
         let connect_options =
             AnyConnectOptions::from_str(&config.connection_url)?
                 .log_statements(LevelFilter::Debug);
