@@ -58,6 +58,7 @@ impl Database {
             .connect_with(connect_options)
             .await?;
 
+        // TODO: Use SQLx's built-in migration system
         let mut migrator = Migrator::new(&connection_pool).await?;
         migrator.run_migrations().await?;
 
