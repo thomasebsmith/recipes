@@ -39,7 +39,7 @@ code layout, etc. are subject to arbitrary changes.
 - API to view ingredients and recipes [complete]
 - API to create new ingredients and recipes [complete]
 - API to create new versions of recipes [in progress]
-- Database migrations system [in progress]
+- Database version migration system [in progress]
 - Example data script [in progress]
 - Thorough unit tests [in progress]
 - Refactor of internal database model code
